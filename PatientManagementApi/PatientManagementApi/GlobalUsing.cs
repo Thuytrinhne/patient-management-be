@@ -1,0 +1,16 @@
+global using PatientManagementApi.Core;
+global using PatientManagementApi.Data;
+global using Microsoft.EntityFrameworkCore;
+global using PatientManagementApi.Settings;
+global using Microsoft.AspNetCore.Mvc;
+global using PatientManagementApi.Dtos;
+global using PatientManagementApi.Core.Pagination;
+global using PatientManagementApi.Models;
+global using PatientManagementApi.Core.Repository;
+global using PatientManagementApi.Repositories.IRepository;
+global using PatientManagementApi.Services.IServices;
+global using PatientManagementApi.UnitOfWork;
+global using AutoMapper;
+global using Microsoft.Extensions.Options;
+global using PatientManagementApi.Repositories;
+global using PatientManagementApi.Services;

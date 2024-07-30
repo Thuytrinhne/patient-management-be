@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  patientmanagementapi:
+    image: ${DOCKER_REGISTRY-}patientmanagementapi
+    build:
+      context: .
+      dockerfile: PatientManagementApi/Dockerfile
+
+  patientdb:
+     image: postgres
+     networks:
+        - mynetworks
+volumes:
+  postgres_patient:
+networks:
+  mynetworks:
+    name: mynetworks
+    driver: bridge
