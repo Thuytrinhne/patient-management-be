@@ -1,3 +1,4 @@
+using Npgsql;
 using System.Xml.Linq;
 
 namespace PatientManagementApi.Services
@@ -10,24 +11,81 @@ namespace PatientManagementApi.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public Task<Guid> AddPatientAsync(Patient patient)
+        public async Task<Guid> AddPatientAsync(Patient patient)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.Patients.AddAsync(patient);
+            await _unitOfWork.SaveChangesAsync();
+            return patient.Id;
         }
 
-        public Task<Guid> DeletePatientAsync(Guid patientId)
+        public async Task DeactivePatient(Guid id, string deactiveReason)
         {
-            throw new NotImplementedException();
+            Patient patientFrmDb = _unitOfWork.Patients.GetById(id);
+            if(patientFrmDb == null)
+            {
+                throw new KeyNotFoundException("Patient not found.");
+            }
+            patientFrmDb.IsActive = false;
+            patientFrmDb.DeactivationReason = deactiveReason;
+            await _unitOfWork.SaveChangesAsync();
+
+           
+
         }
 
-        public async  Task<PaginationResult<Patient>> GetAllPatientAsync(PaginationRequest request)
+        public async Task DeletePatientAsync(Guid patientId)
         {
-            return await _unitOfWork.Patients.GetAllPagination(request);
+            Patient patientToDelete = _unitOfWork.Patients.GetById(patientId);
+            if(patientToDelete is null)
+            {
+                throw new KeyNotFoundException("Patient not found.");
+            }
+
+            _unitOfWork.Patients.Delete(patientToDelete);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        public async Task<PaginationResult<Patient>> GetAllPatientAsync
+            (PaginationRequest request, string? firstName, string? lastName, DateTime? dOB,string? phone,
+            string? email)
+        {
+            return await _unitOfWork.Patients.SearchPatientAsync(request, firstName, lastName ,dOB, phone, email);
         }
 
-        public Task<Guid> UpdatePatientAsync(Patient patient)
+        public Patient GetPatientById(Guid id)
         {
-            throw new NotImplementedException();
+            return _unitOfWork.Patients.GetById(id);
         }
+
+        public async  Task<Guid> UpdatePatientAsync(Patient patient)
+        {
+            var patientFrmDb = _unitOfWork.Patients.GetById(patient.Id);
+            if (patientFrmDb is null)
+            {
+                throw new KeyNotFoundException("Patient not found.");
+            }
+            if (!String.IsNullOrEmpty(patient.FirstName)  && patientFrmDb.FirstName != patient.FirstName)
+            {
+                    patientFrmDb.FirstName = patient.FirstName;
+            }
+            if (!String.IsNullOrEmpty(patient.LastName) && patientFrmDb.LastName != patient.LastName)
+            {
+                   patientFrmDb.LastName = patient.LastName;
+
+            }
+            if (Enum.IsDefined(typeof(Gender), patient.Gender) && patientFrmDb.Gender != patient.Gender)
+            {
+                patientFrmDb.Gender = patient.Gender;
+            }
+            if (patient.DateOfBirth != default(DateTime) && patientFrmDb.DateOfBirth != patient.DateOfBirth)
+            {
+                patientFrmDb.DateOfBirth = patient.DateOfBirth;
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return patientFrmDb.Id;
+
+        }
+
+
     }
 }

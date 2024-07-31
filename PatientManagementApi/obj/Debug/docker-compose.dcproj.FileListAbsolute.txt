@@ -17,3 +17,4 @@ D:\patient-management-be\PatientManagementApi\bin\Debug\Npgsql.EntityFrameworkCo
 D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.EntityFrameworkCore.Abstractions.dll
 D:\patient-management-be\PatientManagementApi\bin\Debug\Npgsql.dll
 D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.EntityFrameworkCore.Relational.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\AutoMapper.dll

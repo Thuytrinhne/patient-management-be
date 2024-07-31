@@ -2,10 +2,14 @@ namespace PatientManagementApi.Services.IServices
 {
     public interface IPatientService
     {
-        public Task<PaginationResult<Patient>> GetAllPatientAsync (PaginationRequest request);
-        public Task<Guid> AddPatientAsync (Patient patient);
-        public Task<Guid> UpdatePatientAsync (Patient patient);
-        public Task<Guid> DeletePatientAsync (Guid patientId);
+         Task<PaginationResult<Patient>> GetAllPatientAsync
+            (PaginationRequest request, string? firstName, string? lastName, DateTime? dOB, string? phone, string? email);
+         Patient GetPatientById(Guid id);
+         Task  DeactivePatient(Guid id, string deactiveReason);
+         Task<Guid> AddPatientAsync (Patient patient);
+         Task<Guid> UpdatePatientAsync (Patient patient);
+         Task DeletePatientAsync (Guid patientId);
+
 
     }
 }

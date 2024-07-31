@@ -10,7 +10,6 @@ namespace PatientManagementApi.Models
         public string Ward { get; set; }
         public string DetailAddress { get; set; }
         public bool IsDefault { get; set; }
-
         // Navigation property
         public Patient Patient { get; set; }
     }

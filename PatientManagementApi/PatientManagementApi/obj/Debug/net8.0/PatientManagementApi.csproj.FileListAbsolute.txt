@@ -104,3 +104,10 @@ D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\AutoMapper.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\FluentValidation.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll

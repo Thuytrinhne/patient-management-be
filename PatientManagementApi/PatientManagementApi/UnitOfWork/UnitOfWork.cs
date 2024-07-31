@@ -9,10 +9,16 @@ namespace PatientManagementApi.UnitOfWork
         private readonly AppDbContext _context;
 
         public IPatientRepository Patients { get; private set; }
+        public IContactInforRepository ContactInfors { get; private set; }
+        public IAddressRepository Addresses { get; private set; }
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             Patients = new PatientRepository(_context);
+            ContactInfors = new ContactInforRepository(_context);
+            Addresses = new AddressRepository(_context);    
+
         }
         public async Task<int> SaveChangesAsync()
         {

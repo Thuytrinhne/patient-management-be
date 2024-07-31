@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
 namespace PatientManagementApi.Core.Repository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
@@ -7,6 +10,22 @@ namespace PatientManagementApi.Core.Repository
         public GenericRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task AddAsync(TEntity entity)
+        {
+            await _context.AddAsync(entity);
+        }
+
+        public void Delete(TEntity entity)
+        {
+            _context.Remove(entity);
+        }
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+            return filter == null
+                ? await _context.Set<TEntity>().ToListAsync()
+                : await _context.Set<TEntity>().Where(filter).ToListAsync();
         }
         public async  Task<PaginationResult<TEntity>> GetAllPagination(PaginationRequest pagination)
         {
@@ -21,6 +40,15 @@ namespace PatientManagementApi.Core.Repository
                     pagination.PageSize,
                     totalCount,
                     entities);
+        }
+
+        public void  Update(TEntity entity)
+        {
+             _context.Set<TEntity>().Update(entity);
+        }
+        public TEntity GetById(Guid id)
+        {
+            return _context.Set<TEntity>().Find(id);
         }
     }
 }

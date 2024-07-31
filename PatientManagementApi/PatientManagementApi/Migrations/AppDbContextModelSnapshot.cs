@@ -124,7 +124,6 @@ namespace PatientManagementApi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DeactivationReason")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
@@ -135,7 +134,9 @@ namespace PatientManagementApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -166,7 +167,7 @@ namespace PatientManagementApi.Migrations
             modelBuilder.Entity("PatientManagementApi.Models.ContactInfor", b =>
                 {
                     b.HasOne("PatientManagementApi.Models.Patient", "Patient")
-                        .WithMany("ContactInfos")
+                        .WithMany("ContactInfors")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -178,7 +179,7 @@ namespace PatientManagementApi.Migrations
                 {
                     b.Navigation("Addresses");
 
-                    b.Navigation("ContactInfos");
+                    b.Navigation("ContactInfors");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,3 +14,8 @@ global using AutoMapper;
 global using Microsoft.Extensions.Options;
 global using PatientManagementApi.Repositories;
 global using PatientManagementApi.Services;
+global using FluentValidation;
+global using PatientManagementApi.Enums;
+global using PatientManagementApi.Dtos.Address;
+global using PatientManagementApi.Dtos.ContactInfor;
+global using PatientManagementApi.Dtos.Patient;

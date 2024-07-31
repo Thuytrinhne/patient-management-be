@@ -25,9 +25,9 @@ namespace PatientManagementApi.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Patient>(entity =>
             {
-                entity.Navigation(p => p.ContactInfos).AutoInclude();
+                entity.Navigation(p => p.ContactInfors).AutoInclude();
                 entity.Navigation(p => p.Addresses).AutoInclude();
-                entity.HasMany(p => p.ContactInfos)
+                entity.HasMany(p => p.ContactInfors)
                       .WithOne(c => c.Patient)
                       .HasForeignKey(c => c.PatientId);
                 entity.HasMany(p => p.Addresses)
@@ -35,6 +35,11 @@ namespace PatientManagementApi.Data
                       .HasForeignKey(a => a.PatientId);
                 entity.Property(p => p.Gender)
                       .HasConversion<int>();
+                entity.Property(p => p.IsActive)
+                      .HasDefaultValue(true); 
+
+                entity.Property(p => p.DeactivationReason)
+                      .IsRequired(false); 
             });
 
             modelBuilder.Entity<ContactInfor>(entity =>
@@ -44,8 +49,10 @@ namespace PatientManagementApi.Data
                 entity.HasIndex(c => c.Value)
                       .IsUnique();   
             });
-          
+            modelBuilder.Entity<Address>()
+            .HasIndex(a => a.PatientId);
+
         }
-        
+
     }
 }

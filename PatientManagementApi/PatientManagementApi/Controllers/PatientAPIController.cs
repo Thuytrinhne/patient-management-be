@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PatientManagementApi.Controllers
 {
@@ -7,30 +9,35 @@ namespace PatientManagementApi.Controllers
     { 
         private ResponseDto _response;
         private IMapper _mapper;
-        private IPatientService _patientService;
+        private readonly IPatientService _patientService;
 
-        public PatientAPIController(IMapper mapper, IPatientService catalogService)
+        public PatientAPIController(IMapper mapper, IPatientService patientService)
         {
             _mapper = mapper;
             _response = new();
-            _patientService = catalogService;
+            _patientService = patientService;
+       
         }
 
         [HttpGet]
         public async Task<ActionResult<ResponseDto>> Get
-            ([FromQuery] PaginationRequest request)
+            ([FromQuery] PaginationRequest request,
+            [FromQuery] string ? firstName,
+            [FromQuery] string ? lastName,
+            [FromQuery] DateTime ? dOB,
+            [FromQuery] string ? phone,
+            [FromQuery] string ? email)
         {
             try
             {
-                PaginationResult<Patient> obj = await _patientService.GetAllPatientAsync(request);
-                if (obj is null)
+                var result = await _patientService.GetAllPatientAsync(request, firstName, lastName, dOB, phone, email);
+                if (result is null)
                 {
                     _response.IsSuccess = false;
                     _response.Message = "There was not any patient record in system !";
-
                     return NotFound(_response);
                 }
-                _response.Result = _mapper.Map<PaginationResult<GetPatientsResponseDto>>(obj);
+                _response.Result = _mapper.Map<PaginationResult<GetPatientsResponseDto>>(result);
                 return Ok(_response);
 
             }
@@ -42,8 +49,162 @@ namespace PatientManagementApi.Controllers
 
             }
         }
+        [HttpGet("{id:Guid}", Name = "GetPatientById")]
+        public async Task<ActionResult<ResponseDto>> Get(Guid id)
+        {
+            try
+            {
+                Patient ? patient = _patientService.GetPatientById(id);
+                if (patient is null)
+                {
+                    _response.IsSuccess = false;
+                    _response.Message = "Patient doesn't exist in the system !";
+                    return NotFound(_response);
+                }
+                _response.Result = _mapper.Map<GetPatientsResponseDto>(patient);
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.ToString();
+                return StatusCode(500, _response);
+            }
+          
+        }
+        [HttpGet("{id:Guid}/addresses")]
+        public async Task<ActionResult<ResponseDto>> GetAddressByPatientId(Guid id)
+        {
+            try
+            {
+                Patient? patient = _patientService.GetPatientById(id);
+                if (patient is null)
+                {
+                    _response.IsSuccess = false;
+                    _response.Message = "Patient doesn't exist in the system !";
+                    return NotFound(_response);
+                }
+                if(patient.Addresses.Count <= 0)
+                {
+                    _response.IsSuccess = false;
+                    _response.Message = "This patient's addresses do not exist in the system !";
+                    return NotFound(_response);
+                }
+
+                _response.Result = _mapper.Map<IEnumerable<GetAddressDto>>(patient.Addresses);
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.ToString();
+                return StatusCode(500, _response);
+            }
+
+        }
+        [HttpGet("{id:Guid}/contact-infors")]
+        public async Task<ActionResult<ResponseDto>> GetContactInforsByPatientId(Guid id)
+        {
+            try
+            {
+                Patient? patient = _patientService.GetPatientById(id);
+                if (patient is null)
+                {
+                    _response.IsSuccess = false;
+                    _response.Message = "Patient doesn't exist in the system !";
+                    return NotFound(_response);
+                }
+                if (patient.ContactInfors.Count <= 0)
+                {
+                    _response.IsSuccess = false;
+                    _response.Message = "This patient's contact infors do not exist in the system !";
+                    return NotFound(_response);
+                }
+
+                _response.Result = _mapper.Map<IEnumerable<GetContactInforDto>>(patient.ContactInfors);
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.ToString();
+                return StatusCode(500, _response);
+            }
+
+        }
+        [HttpPost]
+        public async Task<ActionResult<ResponseDto>> Post
+            (CreatePatientRequestDto request)
+        {
+            try
+            {
+                Patient patientToAdd = _mapper.Map<Patient>(request); 
+                Guid NewPatientId= await _patientService.AddPatientAsync(patientToAdd);
+
+                _response.Result = NewPatientId;
+                return CreatedAtRoute("GetPatientById", new { id = NewPatientId }, _response);
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message.ToString();
+                return StatusCode(500, _response);
+
+            }
+        }
+        [HttpPatch("{id:Guid}")]
+        public async Task<ActionResult<ResponseDto>> Patch
+            (Guid id, UpdatePatientRequestDto request)
+        {
+            try
+            {
+                Patient patientToUpdate = _mapper.Map<Patient>(request);
+                patientToUpdate.Id = id;
+                var patientId = await _patientService.UpdatePatientAsync(patientToUpdate);
+                _response.Result = patientId;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message.ToString();
+                return StatusCode(500, _response);
+
+            }
+        }
 
 
+        [HttpPost("{id:Guid}/deactivation")]
+        public async Task<ActionResult<ResponseDto>> Deactivate (Guid id, [FromBody] string deactiveReason)
+        {
+            try
+            {
+                    await _patientService.DeactivePatient(id, deactiveReason);                
+                    return Ok(_response);  
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message.ToString();
+                return StatusCode(500, _response);
+            }
+        }
+        [HttpDelete("{id:Guid}")]
+        public async Task<ActionResult<ResponseDto>> Delete(Guid id)
+        {
+            try
+            {
+                await _patientService.DeletePatientAsync(id);
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message.ToString();
+                return StatusCode(500, _response);
+            }
+        }
 
     }
 }
