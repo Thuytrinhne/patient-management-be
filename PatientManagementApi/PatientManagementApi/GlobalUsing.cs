@@ -20,3 +20,4 @@ global using PatientManagementApi.Dtos.Address;
 global using PatientManagementApi.Dtos.ContactInfor;
 global using PatientManagementApi.Dtos.Patient;
 global using PatientManagementApi.Extensions.Exceptions;
+global using Microsoft.AspNetCore.Identity;

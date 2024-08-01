@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PatientManagementApi.Core;
@@ -5,11 +6,14 @@ using PatientManagementApi.Models;
 
 namespace PatientManagementApi.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public DbSet<Patient> Patients { get; set; }
         public DbSet<ContactInfor> ContactInfors { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
+
 
         private readonly ConnectionStringOptions _options;
         public AppDbContext(IOptions<ConnectionStringOptions> options)
@@ -17,6 +21,7 @@ namespace PatientManagementApi.Data
             _options = options.Value;
         }
 
+       
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
           => optionsBuilder.UseNpgsql(_options.PostgresConstr);
 

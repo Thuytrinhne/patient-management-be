@@ -26,3 +26,17 @@ D:\patient-management-be\PatientManagementApi\bin\Debug\Npgsql.dll
 D:\patient-management-be\PatientManagementApi\bin\Debug\PatientManagementApi.pdb
 D:\patient-management-be\PatientManagementApi\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
 D:\patient-management-be\PatientManagementApi\obj\Debug\docker-compose.dcproj.CopyComplete
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.Extensions.Identity.Stores.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.Extensions.Options.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.Extensions.Identity.Core.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.Logging.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.Abstractions.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.Protocols.dll

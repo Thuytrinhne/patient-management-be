@@ -112,3 +112,17 @@ D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\PatientManagementApi.pdb
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\obj\Debug\net8.0\PatientManagementApi.genruntimeconfig.cache
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\obj\Debug\net8.0\ref\PatientManagementApi.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
