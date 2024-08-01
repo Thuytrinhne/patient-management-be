@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   patientmanagementapi:
-    container_name: "PatientManagementApi_1"
+    container_name: "PatientManagementApi"
     build:
       args:
         BUILD_CONFIGURATION: Release

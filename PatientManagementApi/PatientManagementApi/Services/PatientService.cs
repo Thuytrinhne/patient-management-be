@@ -23,7 +23,7 @@ namespace PatientManagementApi.Services
             Patient patientFrmDb = _unitOfWork.Patients.GetById(id);
             if(patientFrmDb == null)
             {
-                throw new KeyNotFoundException("Patient not found.");
+                throw new NotFoundException("Patient not found.");
             }
             patientFrmDb.IsActive = false;
             patientFrmDb.DeactivationReason = deactiveReason;
@@ -38,7 +38,7 @@ namespace PatientManagementApi.Services
             Patient patientToDelete = _unitOfWork.Patients.GetById(patientId);
             if(patientToDelete is null)
             {
-                throw new KeyNotFoundException("Patient not found.");
+                throw new NotFoundException("Patient not found.");
             }
 
             _unitOfWork.Patients.Delete(patientToDelete);
@@ -61,7 +61,7 @@ namespace PatientManagementApi.Services
             var patientFrmDb = _unitOfWork.Patients.GetById(patient.Id);
             if (patientFrmDb is null)
             {
-                throw new KeyNotFoundException("Patient not found.");
+                throw new NotFoundException("Patient not found.");
             }
             if (!String.IsNullOrEmpty(patient.FirstName)  && patientFrmDb.FirstName != patient.FirstName)
             {

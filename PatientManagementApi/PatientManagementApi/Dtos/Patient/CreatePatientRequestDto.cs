@@ -6,17 +6,22 @@ namespace PatientManagementApi.Dtos.Patient
         public string LastName { get; set; }
         public Gender Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public ICollection<CreateContactInforDto> ContactInfors { get; set; }
-        public ICollection<CreateAddressDto> Addresses { get; set; }
+        public ICollection<UpsertContactInforDto> ContactInfors { get; set; }
+        public ICollection<UpsertAddressDto> Addresses { get; set; }
     }
-    public class PatientValidator : AbstractValidator<CreatePatientRequestDto>
+    public class CreatePatientValidator : AbstractValidator<CreatePatientRequestDto>
     {
-        public PatientValidator()
+        public CreatePatientValidator()
         {
-            RuleFor(x => x.FirstName).Length(1, 50);
-            RuleFor(x => x.LastName).Length(1, 50);
-            RuleFor(x => x.Gender).NotEmpty().IsInEnum();
-            RuleFor(x => x.DateOfBirth).NotEmpty();
+            RuleFor(x => x.FirstName).Length(1, 50).WithMessage("{PropertyName} must be between 1 and 50 characters.");
+            RuleFor(x => x.LastName).Length(1, 50).WithMessage("{PropertyName} must be between 1 and 50 characters.");
+            RuleFor(x => x.Gender).NotNull().IsInEnum().WithMessage("{PropertyName} must be specified and valid.");
+            RuleFor(x => x.DateOfBirth).NotNull().WithMessage("{PropertyName} must not be null.");
+
+            RuleForEach(x => x.ContactInfors).SetValidator(new ContactInforValidator());
+
+            RuleForEach(x => x.Addresses).SetValidator(new AddressValidator());
+
         }
     }
 }

@@ -1,5 +1,25 @@
 name: dockercompose16431300905360146330
 services:
+  patientdb:
+    container_name: patientdb
+    environment:
+      POSTGRES_DB: PatientDb
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    image: postgres
+    networks:
+      mynetworks: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: volume
+        source: postgres_patient
+        target: /var/lib/postgresql/data
+        volume: {}
   patientmanagementapi:
     build:
       context: D:\patient-management-be\PatientManagementApi
@@ -34,3 +54,9 @@ services:
 networks:
   default:
     name: dockercompose16431300905360146330_default
+  mynetworks:
+    name: mynetworks
+    driver: bridge
+volumes:
+  postgres_patient:
+    name: dockercompose16431300905360146330_postgres_patient

@@ -1,6 +1,3 @@
-
-using System.Diagnostics.CodeAnalysis;
-
 namespace PatientManagementApi.Services
 {
     public class AddressService : IAddressService
@@ -14,7 +11,8 @@ namespace PatientManagementApi.Services
         {
             Patient PatientFrmDb = _unitOfWork.Patients.GetById(address.PatientId);
             if (PatientFrmDb is null)
-                throw new KeyNotFoundException("A patient not found");    
+                throw new NotFoundException("A patient not found");
+            
             if (PatientFrmDb.Addresses.Count <2)
             {
                 await _unitOfWork.Addresses.AddAsync(address);
@@ -26,7 +24,7 @@ namespace PatientManagementApi.Services
                 return address.Id;
 
             }
-            throw new InvalidOperationException("A patient cannot have more than two addresses.");
+            throw new BadRequestException("A patient cannot have more than two addresses.");
 
         }
 
@@ -34,11 +32,11 @@ namespace PatientManagementApi.Services
         {
             var addressFrmDb = _unitOfWork.Addresses.GetById(id);
             if (addressFrmDb is null)
-                throw new KeyNotFoundException("Address not found.");
+                throw new NotFoundException("Address not found.");
             if(addressFrmDb.IsDefault)
             {
                 if ( ! await IsRemainDefaultAddress(addressFrmDb.PatientId, id))
-                    throw new InvalidOperationException("Cannot delete the default address as there are no other addresses available.");
+                    throw new BadRequestException("Cannot delete the default address as there are no other addresses available.");
 
             }
             _unitOfWork.Addresses.Delete(addressFrmDb);
@@ -86,7 +84,7 @@ namespace PatientManagementApi.Services
             var addressFrmDb = _unitOfWork.Addresses.GetById(address.Id);
             if (addressFrmDb is null)
             {
-                throw new KeyNotFoundException("Address not found.");
+                throw new NotFoundException("Address not found.");
             }
             if (!address.IsDefault && address.IsDefault != addressFrmDb.IsDefault)
             {
@@ -97,7 +95,7 @@ namespace PatientManagementApi.Services
                 }
                 else
                 {
-                    throw new InvalidOperationException("Cannot update to the undefault address as there are no other addresses available.");
+                    throw new BadRequestException("Cannot update to the undefault address as there are no other addresses available.");
 
                 }
             }

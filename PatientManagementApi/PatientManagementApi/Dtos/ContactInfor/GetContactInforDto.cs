@@ -7,5 +7,6 @@ namespace PatientManagementApi.Dtos.ContactInfor
         public Guid Id { get; set; }
         public ContactType Type { get; set; }
         public string Value { get; set; }
+        public Guid PatientId { get; set; }
     }
 }

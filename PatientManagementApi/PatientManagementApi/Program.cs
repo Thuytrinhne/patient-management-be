@@ -1,5 +1,9 @@
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using PatientManagementApi.Extensions;
+using PatientManagementApi.Extensions.Exceptions.Handler;
 
 var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
@@ -35,17 +39,27 @@ builder.Services.AddControllers()
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     options.SerializerSettings.Converters.Add(new StringEnumConverter());
 });
-builder.Services.AddValidatorsFromAssembly(assembly);
+
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ContactInforValidator>())
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdatePatientValidator>())
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientValidator>())
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpsertAddressDto>());
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 
 
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -59,5 +73,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseExceptionHandler(opts => { });
 
 app.Run();

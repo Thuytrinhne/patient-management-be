@@ -28,8 +28,7 @@ namespace PatientManagementApi.Controllers
             [FromQuery] string ? phone,
             [FromQuery] string ? email)
         {
-            try
-            {
+            
                 var result = await _patientService.GetAllPatientAsync(request, firstName, lastName, dOB, phone, email);
                 if (result is null)
                 {
@@ -40,20 +39,12 @@ namespace PatientManagementApi.Controllers
                 _response.Result = _mapper.Map<PaginationResult<GetPatientsResponseDto>>(result);
                 return Ok(_response);
 
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.Message.ToString();
-                return StatusCode(500, _response);
-
-            }
+            
         }
         [HttpGet("{id:Guid}", Name = "GetPatientById")]
         public async Task<ActionResult<ResponseDto>> Get(Guid id)
         {
-            try
-            {
+           
                 Patient ? patient = _patientService.GetPatientById(id);
                 if (patient is null)
                 {
@@ -63,20 +54,13 @@ namespace PatientManagementApi.Controllers
                 }
                 _response.Result = _mapper.Map<GetPatientsResponseDto>(patient);
                 return Ok(_response);
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.ToString();
-                return StatusCode(500, _response);
-            }
+           
           
         }
         [HttpGet("{id:Guid}/addresses")]
         public async Task<ActionResult<ResponseDto>> GetAddressByPatientId(Guid id)
         {
-            try
-            {
+           
                 Patient? patient = _patientService.GetPatientById(id);
                 if (patient is null)
                 {
@@ -93,20 +77,13 @@ namespace PatientManagementApi.Controllers
 
                 _response.Result = _mapper.Map<IEnumerable<GetAddressDto>>(patient.Addresses);
                 return Ok(_response);
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.ToString();
-                return StatusCode(500, _response);
-            }
+            
 
         }
         [HttpGet("{id:Guid}/contact-infors")]
         public async Task<ActionResult<ResponseDto>> GetContactInforsByPatientId(Guid id)
         {
-            try
-            {
+           
                 Patient? patient = _patientService.GetPatientById(id);
                 if (patient is null)
                 {
@@ -123,87 +100,48 @@ namespace PatientManagementApi.Controllers
 
                 _response.Result = _mapper.Map<IEnumerable<GetContactInforDto>>(patient.ContactInfors);
                 return Ok(_response);
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.ToString();
-                return StatusCode(500, _response);
-            }
+            
 
         }
         [HttpPost]
         public async Task<ActionResult<ResponseDto>> Post
             (CreatePatientRequestDto request)
         {
-            try
-            {
+          
                 Patient patientToAdd = _mapper.Map<Patient>(request); 
                 Guid NewPatientId= await _patientService.AddPatientAsync(patientToAdd);
 
                 _response.Result = NewPatientId;
                 return CreatedAtRoute("GetPatientById", new { id = NewPatientId }, _response);
 
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.Message.ToString();
-                return StatusCode(500, _response);
-
-            }
+           
         }
         [HttpPatch("{id:Guid}")]
         public async Task<ActionResult<ResponseDto>> Patch
             (Guid id, UpdatePatientRequestDto request)
         {
-            try
-            {
-                Patient patientToUpdate = _mapper.Map<Patient>(request);
+               Patient patientToUpdate = _mapper.Map<Patient>(request);
                 patientToUpdate.Id = id;
                 var patientId = await _patientService.UpdatePatientAsync(patientToUpdate);
                 _response.Result = patientId;
                 return Ok(_response);
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.Message.ToString();
-                return StatusCode(500, _response);
-
-            }
+           
         }
 
 
         [HttpPost("{id:Guid}/deactivation")]
         public async Task<ActionResult<ResponseDto>> Deactivate (Guid id, [FromBody] string deactiveReason)
         {
-            try
-            {
                     await _patientService.DeactivePatient(id, deactiveReason);                
                     return Ok(_response);  
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.Message.ToString();
-                return StatusCode(500, _response);
-            }
+            
         }
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult<ResponseDto>> Delete(Guid id)
         {
-            try
-            {
+            
                 await _patientService.DeletePatientAsync(id);
                 return Ok(_response);
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.Message = ex.Message.ToString();
-                return StatusCode(500, _response);
-            }
         }
 
     }

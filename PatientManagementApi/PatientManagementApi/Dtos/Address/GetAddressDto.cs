@@ -8,5 +8,6 @@ namespace PatientManagementApi.Dtos
         public string Ward { get; set; }
         public string DetailAddress { get; set; }
         public bool IsDefault { get; set; }
+        public Guid PatientId { get; set; }
     }
 }

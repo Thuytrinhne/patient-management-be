@@ -16,7 +16,7 @@ namespace PatientManagementApi.Services
 
             Patient PatientFrmDb = _unitOfWork.Patients.GetById(contactInfor.PatientId);
             if (PatientFrmDb is null)
-                throw new KeyNotFoundException("A patient not found");
+                throw new NotFoundException("A patient not found");
             await  _unitOfWork.ContactInfors.AddAsync(contactInfor);
             await _unitOfWork.SaveChangesAsync();
             return contactInfor.Id;
@@ -31,7 +31,7 @@ namespace PatientManagementApi.Services
                 await _unitOfWork.SaveChangesAsync();
             }
             else
-            throw new KeyNotFoundException("ContactInfor not found.");
+            throw new NotFoundException("ContactInfor not found.");
 
         }
 
@@ -69,7 +69,7 @@ namespace PatientManagementApi.Services
                 return contactInforFrmDb.Id;
             }
             else 
-            throw new KeyNotFoundException("ContactInfor not found.");
+            throw new NotFoundException("ContactInfor not found.");
 
         }
     }
