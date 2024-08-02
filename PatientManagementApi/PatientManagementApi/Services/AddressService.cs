@@ -43,11 +43,11 @@ namespace PatientManagementApi.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
-        private async  Task<bool> IsRemainDefaultAddress(Guid patientId, Guid addressId)
+        private async  Task<bool> IsRemainDefaultAddress(Guid PatientId, Guid addressid)
         {
             // Kiểm tra xem còn địa chỉ nào khác không
-            var patientFrmDb = _unitOfWork.Patients.GetById(patientId);
-            var otherAddresses = patientFrmDb.Addresses.Where(a => a.Id != addressId).ToList();
+            var patientFrmDb = _unitOfWork.Patients.GetById(PatientId);
+            var otherAddresses = patientFrmDb.Addresses.Where(a => a.Id != addressid).ToList();
             if (!otherAddresses.Any())
             {
                 return false;
@@ -66,11 +66,11 @@ namespace PatientManagementApi.Services
             return _unitOfWork.Addresses.GetById(id);
 
         }
-        public async Task<IEnumerable<Address>> GetAllAddressAsync(Guid? patientId = null)
+        public async Task<IEnumerable<Address>> GetAllAddressAsync(Guid? PatientId = null)
         {
-            if (patientId.HasValue)
+            if (PatientId.HasValue)
             {
-                return await _unitOfWork.Addresses.GetAllAsync(a => a.PatientId == patientId.Value);
+                return await _unitOfWork.Addresses.GetAllAsync(a => a.PatientId == PatientId.Value);
             }
             else
             {
@@ -125,12 +125,12 @@ namespace PatientManagementApi.Services
             await _unitOfWork.SaveChangesAsync();
                 return addressFrmDb.Id;
         }
-        private async Task UpdateDefaultAddressAsync(Guid patientId, Guid addressId)
+        private async Task UpdateDefaultAddressAsync(Guid PatientId, Guid addressid)
         {
-            var patientFromDb =  _unitOfWork.Patients.GetById(patientId);
+            var patientFromDb =  _unitOfWork.Patients.GetById(PatientId);
             var defaultAddress = patientFromDb.Addresses.FirstOrDefault(a => a.IsDefault);
 
-            if (defaultAddress is not  null && defaultAddress.Id != addressId)
+            if (defaultAddress is not  null && defaultAddress.Id != addressid)
             {
                 defaultAddress.IsDefault = false;
                 await _unitOfWork.SaveChangesAsync();

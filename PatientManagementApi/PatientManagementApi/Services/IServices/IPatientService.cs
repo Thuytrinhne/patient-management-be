@@ -6,7 +6,7 @@ namespace PatientManagementApi.Services.IServices
     {
          Task<PaginationResult<Patient>> GetAllPatientAsync
             (PaginationRequest request, string? firstName, string? lastName, DateTime? dOB, string? phone, string? email);
-         Patient GetPatientById(Guid id);
+         Task<Patient> GetPatientById(Guid id);
          Task  DeactivePatient(Guid id, string deactiveReason);
          Task<Guid> AddPatientAsync (Patient patient);
          Task<Guid> UpdatePatientAsync (Patient patient);

@@ -40,3 +40,8 @@ D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.
 D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.IdentityModel.Protocols.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\StackExchange.Redis.dll
+D:\patient-management-be\PatientManagementApi\bin\Debug\Pipelines.Sockets.Unofficial.dll

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.RateLimiting;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PatientManagementApi.Controllers
@@ -7,6 +8,7 @@ namespace PatientManagementApi.Controllers
     [Route("api/patients")]
     [ApiController]
     [Authorize]
+
     public class PatientAPIController : ControllerBase
     { 
         private ResponseDto _response;
@@ -22,6 +24,7 @@ namespace PatientManagementApi.Controllers
         }
 
         [HttpGet]
+        [EnableRateLimiting("fixed")]
         public async Task<ActionResult<ResponseDto>> Get
             ([FromQuery] PaginationRequest request,
             [FromQuery] string ? firstName,
@@ -47,7 +50,7 @@ namespace PatientManagementApi.Controllers
         public async Task<ActionResult<ResponseDto>> Get(Guid id)
         {
            
-                Patient ? patient = _patientService.GetPatientById(id);
+                Patient ? patient = await _patientService.GetPatientById(id);
                 if (patient is null)
                 {
                     _response.IsSuccess = false;
@@ -63,7 +66,7 @@ namespace PatientManagementApi.Controllers
         public async Task<ActionResult<ResponseDto>> GetAddressByPatientId(Guid id)
         {
            
-                Patient? patient = _patientService.GetPatientById(id);
+                Patient? patient = await _patientService.GetPatientById(id);
                 if (patient is null)
                 {
                     _response.IsSuccess = false;
@@ -86,7 +89,7 @@ namespace PatientManagementApi.Controllers
         public async Task<ActionResult<ResponseDto>> GetContactInforsByPatientId(Guid id)
         {
            
-                Patient? patient = _patientService.GetPatientById(id);
+                Patient? patient = await  _patientService.GetPatientById(id);
                 if (patient is null)
                 {
                     _response.IsSuccess = false;

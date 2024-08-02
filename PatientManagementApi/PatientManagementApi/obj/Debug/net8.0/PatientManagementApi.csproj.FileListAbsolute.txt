@@ -126,3 +126,11 @@ D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\StackExchange.Redis.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+D:\patient-management-be\PatientManagementApi\PatientManagementApi\bin\Debug\net8.0\System.IO.Packaging.dll

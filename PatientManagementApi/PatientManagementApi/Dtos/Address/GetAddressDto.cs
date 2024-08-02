@@ -9,5 +9,6 @@ namespace PatientManagementApi.Dtos
         public string DetailAddress { get; set; }
         public bool IsDefault { get; set; }
         public Guid PatientId { get; set; }
+
     }
 }

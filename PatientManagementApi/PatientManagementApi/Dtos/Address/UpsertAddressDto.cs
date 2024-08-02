@@ -6,7 +6,7 @@ namespace PatientManagementApi.Dtos.Address
         public string District { get; set; }
         public string Ward { get; set; }
         public string DetailAddress { get; set; }
-        public bool IsDefault { get; set; } 
+        public bool IsDefault { get; set; }
     }
     public class AddressValidator : AbstractValidator<UpsertAddressDto>
     {

@@ -1,13 +1,15 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using PatientManagementApi.ConfigKeys;
 using PatientManagementApi.Dtos.Auth;
 using PatientManagementApi.Extensions;
+using PatientManagementApi.Extensions.DatabaseExtensions;
 using PatientManagementApi.Extensions.Exceptions.Handler;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
@@ -15,8 +17,16 @@ var assembly = typeof(Program).Assembly;
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 {
     var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
+
     options.UseNpgsql(connectionOptions.PostgresConstr);
 });
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    var serviceProvider = builder.Services.BuildServiceProvider();
+    var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
+    options.Configuration = connectionOptions.RedisConstr;
+});
+
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
@@ -29,6 +39,7 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptio
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
+builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IContactInforService, ContactInforService>();
@@ -91,6 +102,18 @@ builder.AddAppAuthetication();
 builder.Services.AddAuthorization();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddFixedWindowLimiter(policyName: "fixed", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 10;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        limiterOptions.QueueLimit = 5;
+    });
+
+});
 var app = builder.Build();
 
 
@@ -107,8 +130,15 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseRateLimiter();
+
 app.MapControllers();
 
 app.UseExceptionHandler(opts => { });
+
+if (app.Environment.IsDevelopment())
+{
+    await app.InitialiseDatabaseAsync();
+}
 
 app.Run();

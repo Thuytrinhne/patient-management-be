@@ -14,6 +14,7 @@ namespace PatientManagementApi.Dtos.Patient
         public string DeactivationReason { get; set; }
         public DateTime? DeactivatedAt { get; set; }
 
+
         public ICollection<GetContactInforDto> ContactInfors { get; set; }
         public ICollection<GetAddressDto> Addresses { get; set; }
     }

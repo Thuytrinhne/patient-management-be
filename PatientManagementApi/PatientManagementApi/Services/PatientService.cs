@@ -5,14 +5,8 @@ using System.Xml.Linq;
 
 namespace PatientManagementApi.Services
 {
-    public class PatientService : IPatientService
+    public class PatientService  (IUnitOfWork _unitOfWork, ICacheService _cacheService) : IPatientService
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public PatientService(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
         public async Task<Guid> AddPatientAsync(Patient patient)
         {
             await _unitOfWork.Patients.AddAsync(patient);
@@ -28,7 +22,7 @@ namespace PatientManagementApi.Services
                 throw new NotFoundException("Patient not found.");
             }
             patientFrmDb.IsActive = false;
-            patientFrmDb.DeactivatedAt  = DateTime.UtcNow;
+            patientFrmDb.DeactivatedAt = DateTime.UtcNow;
             patientFrmDb.DeactivationReason = deactiveReason;
             await _unitOfWork.SaveChangesAsync();
 
@@ -45,17 +39,25 @@ namespace PatientManagementApi.Services
 
             _unitOfWork.Patients.Delete(patientToDelete);
             await _unitOfWork.SaveChangesAsync();
+            await _cacheService.DeletePatient(patientId);
         }
         public async Task<PaginationResult<Patient>> GetAllPatientAsync
-            (PaginationRequest request, string? firstName, string? lastName, DateTime? dOB,string? phone,
+            (PaginationRequest request, string? FirstName, string? LastName, DateTime? dOB,string? phone,
             string? email)
         {
-            return await _unitOfWork.Patients.SearchPatientAsync(request, firstName, lastName ,dOB, phone, email);
+            return await _unitOfWork.Patients.SearchPatientAsync(request, FirstName, LastName ,dOB, phone, email);
         }
 
-        public Patient GetPatientById(Guid id)
+        public async  Task<Patient> GetPatientById(Guid id)
         {
-            return _unitOfWork.Patients.GetById(id);
+            var patientFrmCache = await _cacheService.GetPatient(id);
+            if (patientFrmCache is not null)
+                return patientFrmCache;
+
+            var patientFrmDb =  _unitOfWork.Patients.GetById(id);
+            if(patientFrmDb is not null)
+            await _cacheService.StorePatient(patientFrmDb);
+            return patientFrmDb!;
         }
 
         public async Task<PatientsStatistic> GetPatientsStatistic()

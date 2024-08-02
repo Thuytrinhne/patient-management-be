@@ -12,6 +12,10 @@ services:
      image: postgres
      networks:
         - mynetworks
+  redis-cache:
+     image: redis
+     networks:
+        - mynetworks
 volumes:
   postgres_patient:
 networks:
