@@ -114,7 +114,22 @@ builder.Services.AddRateLimiter(options =>
     });
 
 });
+builder.Services
+    .AddCors(options =>
+    {
+        options.AddPolicy("CorsPolicy", policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .AllowAnyHeader()
+                .SetIsOriginAllowedToAllowWildcardSubdomains();
+        });
+    });
+
 var app = builder.Build();
+app.UseCors("CorsPolicy");
 
 
 
