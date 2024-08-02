@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using PatientManagementApi.Dtos.Statistics;
 using System.Xml.Linq;
 
 namespace PatientManagementApi.Services
@@ -26,11 +28,11 @@ namespace PatientManagementApi.Services
                 throw new NotFoundException("Patient not found.");
             }
             patientFrmDb.IsActive = false;
+            patientFrmDb.DeactivatedAt  = DateTime.UtcNow;
             patientFrmDb.DeactivationReason = deactiveReason;
             await _unitOfWork.SaveChangesAsync();
 
            
-
         }
 
         public async Task DeletePatientAsync(Guid patientId)
@@ -54,6 +56,37 @@ namespace PatientManagementApi.Services
         public Patient GetPatientById(Guid id)
         {
             return _unitOfWork.Patients.GetById(id);
+        }
+
+        public async Task<PatientsStatistic> GetPatientsStatistic()
+        {
+            var totalPatients = await _unitOfWork.Patients.GetTotalCountAsync();
+            var activeTotal = await _unitOfWork.Patients.GetTotalCountAsync(p => p.IsActive);
+            var deactivatedTotal = totalPatients - activeTotal;
+
+           return  new PatientsStatistic
+            {
+                TotalPatient = totalPatients,
+                ActivedTotal = activeTotal,
+                DeactivedTotal = deactivatedTotal
+            };
+        }
+
+        public async Task<TodayPatientsStatistic> GetTodayPatientsStatistic()
+        {
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
+
+            var newPatientsToday = await _unitOfWork.Patients.GetTotalCountAsync(p => p.CreatedAt >= today && p.CreatedAt < tomorrow);
+
+            var deactivatedPatientsToday = await _unitOfWork.Patients.GetTotalCountAsync(p => p.IsActive ==false && p.DeactivatedAt >= today && p.DeactivatedAt < tomorrow);
+
+           return new TodayPatientsStatistic
+            {
+                TodayNewPatient = newPatientsToday,
+                TodayDeactivedTotal = deactivatedPatientsToday
+            };
+
         }
 
         public async  Task<Guid> UpdatePatientAsync(Patient patient)

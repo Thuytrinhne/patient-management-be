@@ -15,6 +15,8 @@ namespace PatientManagementApi.Core.Repository
         public async Task AddAsync(TEntity entity)
         {
             await _context.AddAsync(entity);
+         
+
         }
 
         public void Delete(TEntity entity)
@@ -49,6 +51,17 @@ namespace PatientManagementApi.Core.Repository
         public TEntity GetById(Guid id)
         {
             return _context.Set<TEntity>().Find(id);
+        }
+        public async Task<double> GetTotalCountAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+            if (filter == null)
+            {
+                return await _context.Set<TEntity>().LongCountAsync();
+            }
+            else
+            {
+                return await _context.Set<TEntity>().Where(filter).LongCountAsync();
+            }
         }
     }
 }

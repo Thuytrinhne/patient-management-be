@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PatientManagementApi.Dtos.ContactInfor;
 using PatientManagementApi.Models;
@@ -11,6 +12,8 @@ namespace PatientManagementApi.Controllers
 {
     [Route("api/contact-infors")]
     [ApiController]
+    [Authorize]
+
     public class ContactInforAPIController : ControllerBase
     {
         private readonly IMapper _mapper;

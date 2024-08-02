@@ -5,8 +5,8 @@ using System.Security.Authentication;
 namespace PatientManagementApi.Controllers
 {
     [Route("api/auth")]
-    [Controller]
-    public class AuthAPIController : Controller
+    [ApiController]
+    public class AuthAPIController : ControllerBase
     {
         private readonly IAuthService _authService;
 
@@ -17,9 +17,9 @@ namespace PatientManagementApi.Controllers
             _response = new ResponseDto();
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody]LoginDto request)
         {
-                var loginResponse = await _authService.Login(loginDto);        
+                var loginResponse = await _authService.Login(request);        
                 _response.Result = loginResponse;
                 return Ok(_response);
 

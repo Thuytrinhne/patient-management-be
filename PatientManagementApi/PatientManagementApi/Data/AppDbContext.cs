@@ -44,7 +44,10 @@ namespace PatientManagementApi.Data
                       .HasDefaultValue(true); 
 
                 entity.Property(p => p.DeactivationReason)
-                      .IsRequired(false); 
+                      .IsRequired(false);
+
+                entity.Property(p => p.DeactivatedAt)
+                     .IsRequired(false);
             });
 
             modelBuilder.Entity<ContactInfor>(entity =>

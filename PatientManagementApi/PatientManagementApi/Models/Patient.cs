@@ -10,7 +10,8 @@ namespace PatientManagementApi.Models
         public DateTime DateOfBirth { get; set; }
         public bool IsActive { get; set; }
         public string DeactivationReason { get; set; }
-       
+        public DateTime ? DeactivatedAt { get; set; }
+
         public ICollection<ContactInfor> ContactInfors { get; set; }
         public ICollection<Address> Addresses { get; set; }
 

@@ -10,5 +10,5 @@ namespace PatientManagementApi.Repositories.IRepository
             DateTime? dOB,
             string? phone,
             string? email);
-    }
+    } 
 }

@@ -11,5 +11,6 @@ namespace PatientManagementApi.Core.Repository
         void Delete(T entity);
         void Update(T entities);
         T GetById(Guid id);
+        Task<double> GetTotalCountAsync(Expression<Func<T, bool>> filter = null);
     }
 }

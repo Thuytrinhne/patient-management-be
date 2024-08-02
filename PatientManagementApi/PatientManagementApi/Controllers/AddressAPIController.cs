@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json.Linq;
 
 namespace PatientManagementApi.Controllers
 {
     [Route("api/addresses")]
     [ApiController]
+    [Authorize]
+
     public class AddressAPIController  : ControllerBase
     {
         private ResponseDto _response;
