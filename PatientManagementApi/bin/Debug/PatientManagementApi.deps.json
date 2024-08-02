@@ -9,7 +9,7 @@
       "PatientManagementApi/1.0.0": {
         "dependencies": {
           "AutoMapper": "13.0.1",
-          "DocumentFormat.OpenXml": "3.1.0",
+          "CsvHelper": "33.0.1",
           "FluentValidation.AspNetCore": "11.3.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.7",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.7",
@@ -36,25 +36,11 @@
           }
         }
       },
-      "DocumentFormat.OpenXml/3.1.0": {
-        "dependencies": {
-          "DocumentFormat.OpenXml.Framework": "3.1.0"
-        },
+      "CsvHelper/33.0.1": {
         "runtime": {
-          "lib/net8.0/DocumentFormat.OpenXml.dll": {
-            "assemblyVersion": "3.1.0.0",
-            "fileVersion": "3.1.0.0"
-          }
-        }
-      },
-      "DocumentFormat.OpenXml.Framework/3.1.0": {
-        "dependencies": {
-          "System.IO.Packaging": "8.0.0"
-        },
-        "runtime": {
-          "lib/net8.0/DocumentFormat.OpenXml.Framework.dll": {
-            "assemblyVersion": "3.1.0.0",
-            "fileVersion": "3.1.0.0"
+          "lib/net8.0/CsvHelper.dll": {
+            "assemblyVersion": "33.0.0.0",
+            "fileVersion": "33.0.1.24"
           }
         }
       },
@@ -841,14 +827,6 @@
           }
         }
       },
-      "System.IO.Packaging/8.0.0": {
-        "runtime": {
-          "lib/net8.0/System.IO.Packaging.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.23.53103"
-          }
-        }
-      },
       "System.IO.Pipelines/6.0.3": {},
       "System.Reflection.Metadata/6.0.1": {
         "dependencies": {
@@ -883,19 +861,12 @@
       "path": "automapper/13.0.1",
       "hashPath": "automapper.13.0.1.nupkg.sha512"
     },
-    "DocumentFormat.OpenXml/3.1.0": {
+    "CsvHelper/33.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-J+GtIzVJpj6Wbhc2sYqmXEqAi2LYgWkU5LdVE/vCtNRr8WHDLHRL0lTbSlvTeLzSI5Ws6AC6TPuJR68/3wsa4A==",
-      "path": "documentformat.openxml/3.1.0",
-      "hashPath": "documentformat.openxml.3.1.0.nupkg.sha512"
-    },
-    "DocumentFormat.OpenXml.Framework/3.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-yz78IAteV+/jdpmQRlBIfhsmYfDYqgPSyPUsyT7KnfDlTTvqY6Zf5inMjTSwe2bnN8wv9dLD0C2sAkActXIy/A==",
-      "path": "documentformat.openxml.framework/3.1.0",
-      "hashPath": "documentformat.openxml.framework.3.1.0.nupkg.sha512"
+      "sha512": "sha512-fev4lynklAU2A9GVMLtwarkwaanjSYB4wUqO2nOJX5hnzObORzUqVLe+bDYCUyIIRQM4o5Bsq3CcyJR89iMmEQ==",
+      "path": "csvhelper/33.0.1",
+      "hashPath": "csvhelper.33.0.1.nupkg.sha512"
     },
     "FluentValidation/11.5.1": {
       "type": "package",
@@ -1351,13 +1322,6 @@
       "sha512": "sha512-Thhbe1peAmtSBFaV/ohtykXiZSOkx59Da44hvtWfIMFofDA3M3LaVyjstACf2rKGn4dEDR2cUpRAZ0Xs/zB+7Q==",
       "path": "system.identitymodel.tokens.jwt/7.1.2",
       "hashPath": "system.identitymodel.tokens.jwt.7.1.2.nupkg.sha512"
-    },
-    "System.IO.Packaging/8.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-8g1V4YRpdGAxFcK8v9OjuMdIOJSpF30Zb1JGicwVZhly3I994WFyBdV6mQEo8d3T+URQe55/M0U0eIH0Hts1bg==",
-      "path": "system.io.packaging/8.0.0",
-      "hashPath": "system.io.packaging.8.0.0.nupkg.sha512"
     },
     "System.IO.Pipelines/6.0.3": {
       "type": "package",

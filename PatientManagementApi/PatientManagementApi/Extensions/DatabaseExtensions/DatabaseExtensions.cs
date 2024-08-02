@@ -1,40 +1,54 @@
 
-using DocumentFormat.OpenXml.Packaging;
+using CsvHelper.Configuration;
+using CsvHelper;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using PatientManagementApi.Dtos.Auth;
+using System.Globalization;
+using PatientManagementApi.Services;
+using PatientManagementApi.Core;
 
 namespace PatientManagementApi.Extensions.DatabaseExtensions
 {
-    public static class DatabaseExtensions
+    public static class DatabaseExtensions 
     {
 
         public static async Task InitialiseDatabaseAsync(this WebApplication app)
         {
+
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var serviceProvider = scope.ServiceProvider;
+
             context.Database.MigrateAsync().GetAwaiter().GetResult(); // auto migration 
-          //  await SeedAsync(context);
+            await SeedAsync(context, serviceProvider);
         }
-        private static async Task SeedAsync(AppDbContext context)
+        private static async Task SeedAsync(AppDbContext context, IServiceProvider serviceProvider)
         {
+            var csvService = serviceProvider.GetRequiredService<ICsvService>();
+
             await SeedUsersAsync(context);
             await SeedRolesAsync(context);
-
-            await SeedPatientsAsync(context);
-            //await SeedAddressesAsync(context);
-            //await SeedContactInforsAsync(context);
+            //await SeedPatientsFrmCsvAsync(context, csvService);
+            //await SeedAddressesFrmCsvAsync(context, csvService);
+            ////await SeedContactInforsFrmCsvAsync(context);
 
         }
 
-        private static Task SeedContactInforsAsync(AppDbContext context)
+        private static Task SeedContactInforsFrmCsvAsync(AppDbContext context)
         {
             throw new NotImplementedException();
         }
 
-        private static Task SeedAddressesAsync(AppDbContext context)
+        private static async  Task SeedAddressesFrmCsvAsync(AppDbContext context, ICsvService csvService)
         {
-            throw new NotImplementedException();
+            if (!await context.Addresses.AnyAsync())
+            {
+
+                var addresses = csvService.ReadEntitiesFromCsv<Address>(@"D:\patient-management-be\PatientManagementApi\PatientManagementApi\Extensions\DatabaseExtensions\patients.csv");
+                await context.Addresses.AddRangeAsync(addresses);
+                await context.SaveChangesAsync();
+            }
         }
 
         private static async Task SeedUsersAsync(AppDbContext context)
@@ -56,18 +70,19 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
                 await context.SaveChangesAsync();
             }
         }
-        private static async Task SeedPatientsAsync(AppDbContext context)
+        private static async Task SeedPatientsFrmCsvAsync(AppDbContext context, ICsvService csvService)
         {
             if (!await context.Patients.AnyAsync())
             {
-                string patientJson = System.IO.File.ReadAllText(@"D:\patient-management-be\PatientManagementApi\PatientManagementApi\Extensions\DatabaseExtensions\Patient.json");
-                List<Patient> patients = JsonConvert.DeserializeObject<List<Patient>>(patientJson);
+
+
+
+
+                var patients = csvService.ReadEntitiesFromCsv<Patient>(@"D:\patient-management-be\PatientManagementApi\PatientManagementApi\Extensions\DatabaseExtensions\patients.csv");
                 await context.Patients.AddRangeAsync(patients);
                 await context.SaveChangesAsync();
 
 
-
-            
             }
         }
     

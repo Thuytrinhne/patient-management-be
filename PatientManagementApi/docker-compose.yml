@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
   patientmanagementapi:
     image: ${DOCKER_REGISTRY-}patientmanagementapi
     build:

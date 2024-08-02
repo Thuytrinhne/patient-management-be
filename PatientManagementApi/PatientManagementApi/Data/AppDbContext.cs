@@ -48,6 +48,18 @@ namespace PatientManagementApi.Data
 
                 entity.Property(p => p.DeactivatedAt)
                      .IsRequired(false);
+
+
+
+                entity.Property(p=>p.DateOfBirth)
+                        .HasColumnType("timestamp without time zone");
+                entity.Property(p => p.DeactivatedAt)
+                      .HasColumnType("timestamp without time zone");
+                entity.Property(p => p.CreatedAt)
+                   .HasColumnType("timestamp without time zone");
+                entity.Property(p => p.UpdatedAt)
+                  .HasColumnType("timestamp without time zone");
+
             });
 
             modelBuilder.Entity<ContactInfor>(entity =>
@@ -55,10 +67,23 @@ namespace PatientManagementApi.Data
                 entity.Property(c => c.Type)
                       .HasConversion<string>();
                 entity.HasIndex(c => c.Value)
-                      .IsUnique();   
+                      .IsUnique();
+              
+                entity.Property(p => p.CreatedAt)
+                   .HasColumnType("timestamp without time zone");
+                entity.Property(p => p.UpdatedAt)
+                  .HasColumnType("timestamp without time zone");
             });
-            modelBuilder.Entity<Address>()
-            .HasIndex(a => a.PatientId);
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.Property(p => p.CreatedAt)
+                                 .HasColumnType("timestamp without time zone");
+                entity.Property(p => p.UpdatedAt)
+                  .HasColumnType("timestamp without time zone");
+                entity.HasIndex(a => a.PatientId);
+
+            });
+
 
         }
 

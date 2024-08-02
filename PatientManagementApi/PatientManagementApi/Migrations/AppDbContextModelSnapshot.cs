@@ -131,8 +131,8 @@ namespace PatientManagementApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uuid");
@@ -156,7 +156,7 @@ namespace PatientManagementApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -281,8 +281,8 @@ namespace PatientManagementApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uuid");
@@ -295,7 +295,7 @@ namespace PatientManagementApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -320,17 +320,17 @@ namespace PatientManagementApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DeactivatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("DeactivationReason")
                         .HasColumnType("text");
@@ -352,7 +352,7 @@ namespace PatientManagementApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid");

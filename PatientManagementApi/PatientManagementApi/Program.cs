@@ -44,6 +44,7 @@ builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IContactInforService, ContactInforService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICsvService, CsvService>();
 
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
@@ -120,7 +121,7 @@ builder.Services
         options.AddPolicy("CorsPolicy", policy =>
         {
             policy
-                .AllowAnyOrigin()
+                .WithOrigins("http://localhost:3000")
                 .AllowAnyMethod()
                 .AllowCredentials()
                 .AllowAnyHeader()
