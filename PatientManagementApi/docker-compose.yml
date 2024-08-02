@@ -6,7 +6,8 @@ services:
     build:
       context: .
       dockerfile: PatientManagementApi/Dockerfile
-
+    networks:
+        - mynetworks
   patientdb:
      image: postgres
      networks:
