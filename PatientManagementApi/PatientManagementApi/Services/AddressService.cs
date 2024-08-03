@@ -135,7 +135,12 @@ namespace PatientManagementApi.Services
                 defaultAddress.IsDefault = false;
                 await _unitOfWork.SaveChangesAsync();
             }
-          
+            else if (defaultAddress == null)
+            {
+                // Log the situation or handle it according to business requirements
+                throw new InvalidOperationException("No default address set when trying to update.");
+            }
+
         }
     }
 }

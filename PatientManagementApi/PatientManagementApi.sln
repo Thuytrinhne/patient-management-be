@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientManagementApi", "PatientManagementApi\PatientManagementApi.csproj", "{B952DFBD-1B44-412A-B977-DBF9C816C6C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientManagementApi", "PatientManagementApi\PatientManagementApi.csproj", "{B952DFBD-1B44-412A-B977-DBF9C816C6C8}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{78E1534A-9D85-43D4-B5A2-08A3CCC770D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientManagementApi.Tests", "..\PatientManagementApi.Tests\PatientManagementApi.Tests.csproj", "{72539629-A4BB-4D7F-B815-A2F7B2D4CA73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{78E1534A-9D85-43D4-B5A2-08A3CCC770D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78E1534A-9D85-43D4-B5A2-08A3CCC770D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78E1534A-9D85-43D4-B5A2-08A3CCC770D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72539629-A4BB-4D7F-B815-A2F7B2D4CA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72539629-A4BB-4D7F-B815-A2F7B2D4CA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72539629-A4BB-4D7F-B815-A2F7B2D4CA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72539629-A4BB-4D7F-B815-A2F7B2D4CA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
