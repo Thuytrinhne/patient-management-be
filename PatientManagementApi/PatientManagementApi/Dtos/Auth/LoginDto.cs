@@ -14,7 +14,7 @@ namespace PatientManagementApi.Dtos.Auth
         {
             RuleFor(x => x.Email)
                .NotEmpty().WithMessage("{PropertyName} must be not empty.")
-               .EmailAddress().WithMessage("PropertyName} must be an email.");
+               .EmailAddress().WithMessage("{PropertyName} must be an email.");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("{PropertyName} must be not empty.");

@@ -10,7 +10,7 @@ namespace PatientManagementApi.Core
         public Entity()
         {
             Id = Guid.NewGuid();
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = DateTime.Now;
         }
     }
 }

@@ -21,8 +21,13 @@ namespace PatientManagementApi.Services
             {
                 throw new NotFoundException("Patient not found.");
             }
+            if (!patientFrmDb.IsActive)
+            {
+                throw new BadRequestException("Patient has already deactivated.");
+
+            }
             patientFrmDb.IsActive = false;
-            patientFrmDb.DeactivatedAt = DateTime.UtcNow;
+            patientFrmDb.DeactivatedAt = DateTime.Now;
             patientFrmDb.DeactivationReason = deactiveReason;
             await _unitOfWork.SaveChangesAsync();
 
@@ -43,9 +48,9 @@ namespace PatientManagementApi.Services
         }
         public async Task<PaginationResult<Patient>> GetAllPatientAsync
             (PaginationRequest request, string? FirstName, string? LastName, DateTime? dOB,string? phone,
-            string? email)
+            string? email, bool? isActive, Gender? gender)
         {
-            return await _unitOfWork.Patients.SearchPatientAsync(request, FirstName, LastName ,dOB, phone, email);
+            return await _unitOfWork.Patients.SearchPatientAsync(request, FirstName, LastName ,dOB, phone, email, isActive, gender);
         }
 
         public async  Task<Patient> GetPatientById(Guid id)
@@ -76,12 +81,12 @@ namespace PatientManagementApi.Services
 
         public async Task<TodayPatientsStatistic> GetTodayPatientsStatistic()
         {
-            var today = DateTime.UtcNow.Date;
+            var today = DateTime.Now.Date;
             var tomorrow = today.AddDays(1);
 
             var newPatientsToday = await _unitOfWork.Patients.GetTotalCountAsync(p => p.CreatedAt >= today && p.CreatedAt < tomorrow);
 
-            var deactivatedPatientsToday = await _unitOfWork.Patients.GetTotalCountAsync(p => p.IsActive ==false && p.DeactivatedAt >= today && p.DeactivatedAt < tomorrow);
+            var deactivatedPatientsToday = await _unitOfWork.Patients.GetTotalCountAsync(p => p.IsActive ==false &&( p.DeactivatedAt >= today && p.DeactivatedAt < tomorrow));
 
            return new TodayPatientsStatistic
             {

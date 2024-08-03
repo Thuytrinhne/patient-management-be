@@ -1,0 +1,84 @@
+name: dockercompose16431300905360146330
+services:
+  patientdb:
+    container_name: patientdb
+    environment:
+      POSTGRES_DB: PatientDb
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    image: postgres
+    networks:
+      mynetworks: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: volume
+        source: postgres_patient
+        target: /var/lib/postgresql/data
+        volume: {}
+  patientmanagementapi:
+    build:
+      context: D:\patient-management-be\PatientManagementApi
+      dockerfile: PatientManagementApi/Dockerfile
+    depends_on:
+      patientdb:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_HTTPS_PORTS: "8081"
+      ConnectionStrings__PostgresConstr: Server=patientdb;Port=5432;Database=PatientDb;User Id=postgres;Password=postgres;Include Error Detail=true
+      ConnectionStrings__RedisConstr: redis-cache:6379
+    image: patientmanagementapi
+    networks:
+      mynetworks: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "6000"
+        protocol: tcp
+      - mode: ingress
+        target: 8081
+        published: "7012"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\ADMIN\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\ADMIN\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: D:\patient-management-be\PatientManagementApi\Extensions\DatabaseExtensions
+        target: /app/Extensions/DatabaseExtensions
+        bind:
+          create_host_path: true
+  redis-cache:
+    container_name: redis-cache
+    image: redis
+    networks:
+      mynetworks: null
+    ports:
+      - mode: ingress
+        target: 6379
+        published: "6379"
+        protocol: tcp
+    restart: always
+networks:
+  mynetworks:
+    name: mynetworks
+    driver: bridge
+volumes:
+  postgres_patient:
+    name: dockercompose16431300905360146330_postgres_patient

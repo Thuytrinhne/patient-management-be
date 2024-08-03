@@ -1,4 +1,3 @@
-
 using CsvHelper.Configuration;
 using CsvHelper;
 using Microsoft.AspNetCore.Identity;
@@ -29,8 +28,8 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
 
             await SeedUsersAsync(context);
             await SeedRolesAsync(context);
-            //await SeedPatientsFrmCsvAsync(context, csvService);
-            //await SeedAddressesFrmCsvAsync(context, csvService);
+            await SeedPatientsFrmCsvAsync(context, csvService);
+            await SeedAddressesFrmCsvAsync(context, csvService);
             ////await SeedContactInforsFrmCsvAsync(context);
 
         }
@@ -44,8 +43,7 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
         {
             if (!await context.Addresses.AnyAsync())
             {
-
-                var addresses = csvService.ReadEntitiesFromCsv<Address>(@"D:\patient-management-be\PatientManagementApi\PatientManagementApi\Extensions\DatabaseExtensions\patients.csv");
+                var addresses = csvService.ReadEntitiesFromCsv<Address>(@".\Extensions\DatabaseExtensions\addresses_data.csv");
                 await context.Addresses.AddRangeAsync(addresses);
                 await context.SaveChangesAsync();
             }
@@ -74,11 +72,7 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
         {
             if (!await context.Patients.AnyAsync())
             {
-
-
-
-
-                var patients = csvService.ReadEntitiesFromCsv<Patient>(@"D:\patient-management-be\PatientManagementApi\PatientManagementApi\Extensions\DatabaseExtensions\patients.csv");
+                var patients = csvService.ReadEntitiesFromCsv<Patient>(@".\Extensions\DatabaseExtensions\patients_data.csv");
                 await context.Patients.AddRangeAsync(patients);
                 await context.SaveChangesAsync();
 

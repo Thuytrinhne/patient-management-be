@@ -31,10 +31,13 @@ namespace PatientManagementApi.Controllers
             [FromQuery] string ? lastName,
             [FromQuery] DateTime ? dOB,
             [FromQuery] string ? phone,
-            [FromQuery] string ? email)
+            [FromQuery] string ? email,
+            [FromQuery] bool ? isActive,
+            [FromQuery] Gender? gender
+            )
         {
             
-                var result = await _patientService.GetAllPatientAsync(request, firstName, lastName, dOB, phone, email);
+                var result = await _patientService.GetAllPatientAsync(request, firstName, lastName, dOB, phone, email, isActive, gender);
                 if (result is null)
                 {
                     _response.IsSuccess = false;

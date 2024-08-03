@@ -9,6 +9,8 @@ namespace PatientManagementApi.Repositories.IRepository
             string? lastName,
             DateTime? dOB,
             string? phone,
-            string? email);
+            string? email,
+            bool? isActive,
+            Gender? gender);
     } 
 }

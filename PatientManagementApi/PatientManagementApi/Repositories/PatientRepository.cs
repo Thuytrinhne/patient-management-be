@@ -15,9 +15,11 @@ namespace PatientManagementApi.Repositories
             string? lastName,
             DateTime? dOB,
             string? phone,
-            string? email)
+            string? email,
+            bool? isActive,
+            Gender? gender)
         {
-            var patientExpression=   createExpression(firstName, lastName, dOB, phone, email);
+            var patientExpression=   createExpression(firstName, lastName, dOB, phone, email, isActive, gender);
             var query = _context.Patients.Where(patientExpression);   
 
             var totalCount = await query.CountAsync();
@@ -34,7 +36,7 @@ namespace PatientManagementApi.Repositories
         }
 
         private Expression<Func<Patient, bool>> createExpression
-            (string? firstName, string? lastName, DateTime? dOB, string ? phone, string ? email)
+            (string? firstName, string? lastName, DateTime? dOB, string ? phone, string ? email, bool? isActive, Gender? gender)
         {
             Expression<Func<Patient, bool>> patientExpression = patient => true;
 
@@ -66,6 +68,16 @@ namespace PatientManagementApi.Repositories
             {
                 patientExpression = patientExpression.And(p =>
                     p.ContactInfors.Any(c => c.Type == ContactType.Email && EF.Functions.ILike(c.Value, $"%{email}%")));
+            }
+            if (isActive.HasValue)
+            {
+                patientExpression = patientExpression.And(p => p.IsActive == isActive.Value);
+            }
+
+            if (gender.HasValue)
+            {
+                patientExpression = patientExpression.And(p => p.Gender == gender);
+
             }
 
             return patientExpression;
