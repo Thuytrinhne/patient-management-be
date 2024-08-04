@@ -4,6 +4,7 @@ using Moq;
 using PatientManagementApi.Controllers;
 using PatientManagementApi.Core.Pagination;
 using PatientManagementApi.Dtos;
+using PatientManagementApi.Dtos.Address;
 using PatientManagementApi.Dtos.ContactInfor;
 using PatientManagementApi.Dtos.Patient;
 using PatientManagementApi.Enums;
@@ -77,10 +78,10 @@ namespace PatientManagementApi.Tests.ControllerTests
             // Arrange
             var patientId = Guid.NewGuid();
             var patient = new Patient();
-            var patientDto = new GetPatientsResponseDto();
+            var patientDto = new GetPatientByIdResponseDto();
 
             _mockPatientService.Setup(s => s.GetPatientById(patientId)).ReturnsAsync(patient);
-            _mockMapper.Setup(m => m.Map<GetPatientsResponseDto>(patient)).Returns(patientDto);
+            _mockMapper.Setup(m => m.Map<GetPatientByIdResponseDto>(patient)).Returns(patientDto);
 
             // Act
             var result = await _controller.Get(patientId);

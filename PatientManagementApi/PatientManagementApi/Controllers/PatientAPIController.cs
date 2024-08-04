@@ -14,12 +14,16 @@ namespace PatientManagementApi.Controllers
         private ResponseDto _response;
         private IMapper _mapper;
         private readonly IPatientService _patientService;
+        private readonly IAddressService _addressService;
+        private readonly IContactInforService _contactInforService;
 
-        public PatientAPIController(IMapper mapper, IPatientService patientService)
+        public PatientAPIController(IMapper mapper, IPatientService patientService, IAddressService addressService, IContactInforService contactInforService)
         {
             _mapper = mapper;
             _response = new();
             _patientService = patientService;
+            _addressService = addressService;
+            _contactInforService = contactInforService;
        
         }
 
@@ -54,62 +58,26 @@ namespace PatientManagementApi.Controllers
         {
            
                 Patient ? patient = await _patientService.GetPatientById(id);
-                if (patient is null)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "Patient doesn't exist in the system !";
-                    return NotFound(_response);
-                }
-                _response.Result = _mapper.Map<GetPatientsResponseDto>(patient);
-                return Ok(_response);
-           
-          
+                _response.Result = _mapper.Map<GetPatientByIdResponseDto>(patient);
+                return Ok(_response); 
         }
         [HttpGet("{id:Guid}/addresses")]
         public async Task<ActionResult<ResponseDto>> GetAddressByPatientId(Guid id)
         {
            
-                Patient? patient = await _patientService.GetPatientById(id);
-                if (patient is null)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "Patient doesn't exist in the system !";
-                    return NotFound(_response);
-                }
-                if(patient.Addresses.Count <= 0)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "This patient's addresses do not exist in the system !";
-                    return NotFound(_response);
-                }
-
-                _response.Result = _mapper.Map<IEnumerable<GetAddressDto>>(patient.Addresses);
+                var addresses = await _addressService.GetAllAddressAsync(id);
+                _response.Result = _mapper.Map<IEnumerable<GetAddressDto>>(addresses);
                 return Ok(_response);
             
-
         }
         [HttpGet("{id:Guid}/contact-infors")]
         public async Task<ActionResult<ResponseDto>> GetContactInforsByPatientId(Guid id)
         {
-           
-                Patient? patient = await  _patientService.GetPatientById(id);
-                if (patient is null)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "Patient doesn't exist in the system !";
-                    return NotFound(_response);
-                }
-                if (patient.ContactInfors.Count <= 0)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "This patient's contact infors do not exist in the system !";
-                    return NotFound(_response);
-                }
+            var contactInfors = await _contactInforService.GetAllContactInforAsync(id);
+            _response.Result = _mapper.Map<IEnumerable<GetContactInforDto>>(contactInfors);
+            return Ok(_response);
 
-                _response.Result = _mapper.Map<IEnumerable<GetContactInforDto>>(patient.ContactInfors);
-                return Ok(_response);
-            
-
+      
         }
         [HttpPost]
         public async Task<ActionResult<ResponseDto>> Post

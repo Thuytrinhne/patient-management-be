@@ -27,21 +27,7 @@ namespace PatientManagementApi.Controllers
             _response = new ResponseDto();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ResponseDto>> Get()
-        {
-           
-                var result = await _contactInforService.GetAllContactInforAsync();
-                if (result is null || result.Count == 0)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "There are no contact information in the system ";
-                    return NotFound(_response);
-                }
-                _response.Result = _mapper.Map<IEnumerable<GetContactInforDto>>(result);
-                return Ok(_response);
-         
-        }
+        
 
         [HttpGet("{id:Guid}", Name = "GetContactInforById")]
         public async Task<ActionResult<ResponseDto>> Get(Guid id)

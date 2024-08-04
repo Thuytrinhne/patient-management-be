@@ -1,5 +1,7 @@
 
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
+using PatientManagementApi.Core;
 using PatientManagementApi.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -9,24 +11,24 @@ namespace PatientManagementApi.Services
 {
     public class CacheService (IDistributedCache _cache) : ICacheService
     {
-        public async  Task DeletePatient(Guid patientId)
+        public async Task DeleteData(string key)
         {
-            await _cache.RemoveAsync(patientId.ToString());
+            await _cache.RemoveAsync(key);
         }
 
-        public async  Task<Patient> GetPatient(Guid patientId)
+        public async Task<Object> GetData(string  key)
         {
             var options = GetJsonSerializerOptions();
-            var cachedPatient = await _cache.GetStringAsync(patientId.ToString());
+            var cachedPatient = await _cache.GetStringAsync(key);
             if (!string.IsNullOrEmpty(cachedPatient))
             {
-                return JsonSerializer.Deserialize<Patient>(cachedPatient, options)!;
+                return JsonSerializer.Deserialize<Object>(cachedPatient, options)!;
             }
             return null!;
 
         }
 
-        public async Task StorePatient(Patient patient)
+        public async Task StoreData(string key, Object obj)
         {
 
             var options = GetJsonSerializerOptions();
@@ -37,8 +39,8 @@ namespace PatientManagementApi.Services
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
             };
 
-            var serializedPatient = JsonSerializer.Serialize(patient, options);
-            await _cache.SetStringAsync(patient.Id.ToString(), serializedPatient, cacheOptions);
+            var serializedPatient = JsonSerializer.Serialize(obj, options);
+            await _cache.SetStringAsync(key, serializedPatient, cacheOptions);
         }
         private JsonSerializerOptions GetJsonSerializerOptions()
         {

@@ -30,8 +30,7 @@ namespace PatientManagementApi.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Patient>(entity =>
             {
-                entity.Navigation(p => p.ContactInfors).AutoInclude();
-                entity.Navigation(p => p.Addresses).AutoInclude();
+              
                 entity.HasMany(p => p.ContactInfors)
                       .WithOne(c => c.Patient)
                       .HasForeignKey(c => c.PatientId);
@@ -73,6 +72,8 @@ namespace PatientManagementApi.Data
                    .HasColumnType("timestamp without time zone");
                 entity.Property(p => p.UpdatedAt)
                   .HasColumnType("timestamp without time zone");
+                entity.HasIndex(p => p.PatientId);
+
             });
             modelBuilder.Entity<Address>(entity =>
             {
@@ -80,7 +81,7 @@ namespace PatientManagementApi.Data
                                  .HasColumnType("timestamp without time zone");
                 entity.Property(p => p.UpdatedAt)
                   .HasColumnType("timestamp without time zone");
-                entity.HasIndex(a => a.PatientId);
+                entity.HasIndex(p => p.PatientId);
 
             });
 

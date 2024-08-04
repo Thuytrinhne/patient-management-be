@@ -28,40 +28,7 @@ namespace PatientManagementApi.Tests.ControllerTests
             _response = new ResponseDto();
             _controller = new ContactInforAPIController(_mockMapper.Object, _mockContactInforService.Object);
         }
-        #region GetAllContactInfors
-        [Fact]
-        public async Task GetAllContactInfors_WhenNoContactInfors_ReturnsNotFound()
-        {
-            // Arrange
-            _mockContactInforService.Setup(x => x.GetAllContactInforAsync(null)).ReturnsAsync(new List<ContactInfor>());
-
-            // Act
-            var result = await _controller.Get();
-
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result.Result);
-            Assert.False(((ResponseDto)notFoundResult.Value).IsSuccess);
-        }
-
-        [Fact]
-        public async Task GetAllContactInfors_WhenContactInforsExist_ReturnsOk()
-        {
-            // Arrange
-            var contactInfors = new List<ContactInfor> { new ContactInfor(), new ContactInfor() };
-            var contactInforDtos = new List<GetContactInforDto> { new GetContactInforDto(), new GetContactInforDto() };
-            _mockContactInforService.Setup(x => x.GetAllContactInforAsync(null)).ReturnsAsync(contactInfors);
-            _mockMapper.Setup(m => m.Map<IEnumerable<GetContactInforDto>>(contactInfors)).Returns(contactInforDtos);
-
-            // Act
-            var result = await _controller.Get();
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            Assert.Equal(contactInforDtos, ((ResponseDto)okResult.Value).Result);
-        }
-
-        #endregion
-
+ 
         #region GetContactInforById
         [Fact]
         public async Task GetContactInforById_WhenContactInforDoesNotExist_ReturnsNotFound()

@@ -14,7 +14,9 @@ namespace PatientManagementApi.Mapper
 
             CreateMap<Patient, GetPatientsResponseDto>().ReverseMap();
             CreateMap<Patient, UpdatePatientRequestDto>().ReverseMap();
+            CreateMap<Patient, GetPatientByIdResponseDto>().ReverseMap();
 
+            
 
         }
     }

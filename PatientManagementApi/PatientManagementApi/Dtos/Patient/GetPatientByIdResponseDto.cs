@@ -1,9 +1,6 @@
-using PatientManagementApi.Dtos.ContactInfor;
-using PatientManagementApi.Enums;
-
-namespace PatientManagementApi.Dtos.Patient
+namespace PatientManagementApi.Dtos.Address
 {
-    public class GetPatientsResponseDto
+    public class GetPatientByIdResponseDto
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
@@ -15,6 +12,7 @@ namespace PatientManagementApi.Dtos.Patient
         public DateTime? DeactivatedAt { get; set; }
 
 
-     
+        public ICollection<GetContactInforDto> ContactInfors { get; set; }
+        public ICollection<GetAddressDto> Addresses { get; set; }
     }
 }

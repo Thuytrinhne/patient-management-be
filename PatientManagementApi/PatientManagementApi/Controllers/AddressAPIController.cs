@@ -20,22 +20,6 @@ namespace PatientManagementApi.Controllers
         }
  
 
-        [HttpGet]
-        public async Task<ActionResult<ResponseDto>> Get()
-        {
-            var result = await _addressService.GetAllAddressAsync();
-                if (result is null || result.Count() ==0)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "There doesn't not any address in system !";
-                    return NotFound(_response);
-                }
-                _response.Result = _mapper.Map<IEnumerable<GetAddressDto>>(result);
-                return Ok(_response);
-
-            
-          
-        }
         [HttpGet("{id:Guid}", Name = "GetAddressById")]
         public async Task<ActionResult<ResponseDto>> Get(Guid id)
         {

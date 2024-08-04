@@ -12,5 +12,6 @@ namespace PatientManagementApi.Repositories.IRepository
             string? email,
             bool? isActive,
             Gender? gender);
+        Task<Patient> GetPatientWithAddresses(Guid patientId);
     } 
 }

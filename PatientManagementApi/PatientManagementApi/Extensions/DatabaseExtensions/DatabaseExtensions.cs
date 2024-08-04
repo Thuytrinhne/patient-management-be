@@ -43,7 +43,7 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
         {
             if (!await context.Addresses.AnyAsync())
             {
-                var addresses = csvService.ReadEntitiesFromCsv<Address>(@".\Extensions\DatabaseExtensions\addresses_data.csv");
+                var addresses = csvService.ReadEntitiesFromCsv<Address>(@"./Extensions/DatabaseExtensions/addresses_data.csv");
                 await context.Addresses.AddRangeAsync(addresses);
                 await context.SaveChangesAsync();
             }
@@ -72,7 +72,7 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
         {
             if (!await context.Patients.AnyAsync())
             {
-                var patients = csvService.ReadEntitiesFromCsv<Patient>(@".\Extensions\DatabaseExtensions\patients_data.csv");
+                var patients = csvService.ReadEntitiesFromCsv<Patient>(@"./Extensions/DatabaseExtensions/patients_data.csv");
                 await context.Patients.AddRangeAsync(patients);
                 await context.SaveChangesAsync();
 

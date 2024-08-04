@@ -34,6 +34,13 @@ namespace PatientManagementApi.Repositories
                 totalCount,
                 patients);
         }
+        public async Task<Patient> GetPatientWithAddresses(Guid patientId)
+        {
+            return await _context.Patients
+                                 .Include(p => p.Addresses)
+                                 .Include(p=>p.ContactInfors)
+                                 .FirstOrDefaultAsync(p => p.Id == patientId);
+        }
 
         private Expression<Func<Patient, bool>> createExpression
             (string? firstName, string? lastName, DateTime? dOB, string ? phone, string ? email, bool? isActive, Gender? gender)

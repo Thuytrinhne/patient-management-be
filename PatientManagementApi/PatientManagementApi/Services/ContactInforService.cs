@@ -40,7 +40,7 @@ namespace PatientManagementApi.Services
             return  _unitOfWork.ContactInfors.GetById(id);
         }
 
-        public async Task<List<ContactInfor>> GetAllContactInforAsync(Guid ? PatientId = null)
+        public async Task<List<ContactInfor>> GetAllContactInforAsync(Guid ? PatientId)
         {
             if (PatientId.HasValue)
             {

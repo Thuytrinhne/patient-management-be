@@ -1,10 +1,10 @@
 namespace PatientManagementApi.Services.IServices
 {
-    public interface ICacheService 
+    public interface ICacheService
     {
-        Task<Patient> GetPatient(Guid patientId);
-        Task StorePatient(Patient patient);
-        Task DeletePatient(Guid patientId);
+        Task<Object> GetData(string key);
+        Task StoreData(string key, Object obj);
+        Task DeleteData(string key);
 
     }
 }

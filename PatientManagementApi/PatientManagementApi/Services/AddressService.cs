@@ -66,7 +66,7 @@ namespace PatientManagementApi.Services
             return _unitOfWork.Addresses.GetById(id);
 
         }
-        public async Task<IEnumerable<Address>> GetAllAddressAsync(Guid? PatientId = null)
+        public async Task<IEnumerable<Address>> GetAllAddressAsync(Guid? PatientId)
         {
             if (PatientId.HasValue)
             {

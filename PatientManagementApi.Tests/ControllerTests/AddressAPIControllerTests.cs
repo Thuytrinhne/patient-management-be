@@ -28,38 +28,7 @@ namespace PatientManagementApi.Tests.ControllerTests
             _response = new ResponseDto();
             _controller = new AddressAPIController(_mockMapper.Object, _mockAddressService.Object);
         }
-        #region GetAllAddresses
-        [Fact]
-        public async Task GetAllAddresses_WhenNoAddresses_ReturnsNotFound()
-        {
-            // Arrange
-            _mockAddressService.Setup(x => x.GetAllAddressAsync(null)).ReturnsAsync(new List<Address>());
-
-            // Act
-            var result = await _controller.Get();
-
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result.Result);
-            Assert.False(((ResponseDto)notFoundResult.Value).IsSuccess);
-        }
-
-        [Fact]
-        public async Task GetAllAddresses_WhenAddressesExist_ReturnsOk()
-        {
-            // Arrange
-            var addresses = new List<Address> { new Address(), new Address() };
-            var addressDtos = new List<GetAddressDto> { new GetAddressDto(), new GetAddressDto() };
-            _mockAddressService.Setup(x => x.GetAllAddressAsync(null)).ReturnsAsync(addresses);
-            _mockMapper.Setup(m => m.Map<IEnumerable<GetAddressDto>>(addresses)).Returns(addressDtos);
-
-            // Act
-            var result = await _controller.Get();
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            Assert.Equal(addressDtos, ((ResponseDto)okResult.Value).Result);
-        }
-        #endregion
+     
         #region GetAddressById
         [Fact]
 
