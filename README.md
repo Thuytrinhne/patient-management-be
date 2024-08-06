@@ -1,23 +1,21 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents**
-
 - [Summary](#summary)
-- [Analysis problem and think for solution](#analysis-problem-and-think-for-solution)
+- [Analysis problem and Solution](#analysis-problem-and-solution)
   - [Problem](#problem)
   - [Analysis](#analysis)
-  - [My solution:](#my-solution)
+  - [My solution](#my-solution)
 - [Architecture](#architecture)
   - [Database diagram](#database-diagram)
   - [System Architecture](#system-architecture)
 - [Technologies:](#technologies)
-  - [Front-End:](#front-end)
-  - [Back-End:](#back-end)
+  - [Front-End](#front-end)
+  - [Back-End](#back-end)
 - [Task progress](#task-progress)
 - [Run Application](#run-application)
-  - [Play with Microsoft Visual Studio SDK](#play-with-microsoft-visual-studio-sdk)
-  - [Play with our live website](#play-with-our-live-website)
+  - [1. Play with Microsoft Visual Studio SDK](#1-play-with-microsoft-visual-studio-sdk)
+  - [2. Play with our live website](#2-play-with-our-live-website)
 - [End](#end)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -130,10 +128,10 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ## 1. Play with Microsoft Visual Studio SDK
 
-B1: Clone the git project
-B2: Click on the `PatientManagementApi.sln`
-B3: Choose the profile for running you want
-B4: Run and if the swagger doc appear, that is successful
+- B1: Clone the git project
+- B2: Click on the `PatientManagementApi.sln`
+- B3: Choose the profile for running you want
+- B4: Run and if the swagger doc appear, that is successful
 
 ## 2. Play with our live website
 
