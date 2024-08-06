@@ -58,11 +58,11 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 🔗Link test Front-End:
 <p align="center">
-  <img src="https://vi.wikipedia.org/wiki/React" alt="React" width="100"/>
-  <img src="https://www.bairesdev.com/blog/what-is-redux-and-why-it-matters" alt="Redux" width="100"/>
-  <img src="https://www.youtube.com/@MUI_hq" alt="MUI" width="100"/>
-  <img src="https://vi.wikipedia.org/wiki/Bootstrap" alt="Bootstrap" width="100"/>
-  <img src="https://vercel.com/" alt="Vercel" width="100"/>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg1MndL-Xp1JcnqaB0YOqTp6zDjrwYyGKsPA&s" alt="React" width="100"/>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwh-2btrw1P54k-yIKqG_lsB_SVc48vGzWZQ&s" alt="Redux" width="100"/>
+  <img src="https://yt3.googleusercontent.com/bAPgcc0NUsnRyyikb_X6cz4Wdv4vFGZ0PvdAZs6dHgeMjXcau5AM7aFqdFxzP_UBXlbwiBg4=s900-c-k-c0x00ffffff-no-rj" alt="MUI" width="100"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/800px-Bootstrap_logo.svg.png" alt="Bootstrap" width="100"/>
+  <img src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png" alt="Vercel" width="100"/>
 </p>
 - React
 - Redux
