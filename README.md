@@ -58,7 +58,8 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ## Front-End
 
-🔗Link test Front-End:
+🔗Link test Front-End: [Link](https://fe-k1y5j9njc-natngocs-projects.vercel.app)
+🔗Link repo Front-End: [Link](https://github.com/Thuytrinhne/patient-management-fe)
 
 <p align="center">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg1MndL-Xp1JcnqaB0YOqTp6zDjrwYyGKsPA&s" alt="React" width="100"/>
@@ -76,8 +77,8 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ## Back-End
 
-🔗Link test api: https://hospital-api-f6c5exhyheg3abfd.southeastasia-01.azurewebsites.net/
-
+🔗Link test api: [Link](https://hospital-api-f6c5exhyheg3abfd.southeastasia-01.azurewebsites.net)
+🔗Link repo Back-end: [Link](https://github.com/Thuytrinhne/patient-management-be)
 <p align="center">
   <img src="https://www.pragimtech.com/wp-content/uploads/2019/04/aspnet.png" width="100" />
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUmnFYeOmmAlNV9_ZTu5cYgS2L55Q1pt9QyA&s" width="100" />
@@ -136,7 +137,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ## 2. Play with our live website
 
-Click on the link
+Click on the [Link](https://fe-k1y5j9njc-natngocs-projects.vercel.app)
 
 # End 👋
 
