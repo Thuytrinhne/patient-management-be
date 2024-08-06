@@ -1,7 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** 
+**Table of Contents**
 
 - [Summary](#summary)
 - [Analysis problem and think for solution](#analysis-problem-and-think-for-solution)
@@ -47,9 +47,13 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 # Architecture
 
 ## Database diagram
+
 ![Untitled](https://github.com/user-attachments/assets/cc99a717-4525-4db7-ae98-f5b7fc91a2c9)
+
 ## System Architecture
+
 ![image](https://github.com/user-attachments/assets/ba8a1459-fcf8-4705-a522-019d73d3e7af)
+
 # Technologies:
 
 ---
