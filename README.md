@@ -26,7 +26,7 @@
 
 This is an simple web application of patients managements.
 
-# Analysis problem and think for solution
+# Analysis problem and Solution
 
 ## Problem
 
@@ -36,7 +36,7 @@ https://docs.google.com/document/d/1mCDD8p3cwsm0-f2eaYmEZvbG8_habWmfu8ettW75Sak/
 
 https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/edit
 
-## My solution:
+## My solution
 
 - Users up to 100K and possibly more -> Replication and cache to minimize query time
 - At the same time, it is also necessary to optimize queries -> Database Tuning approach is so necessary
@@ -54,7 +54,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ---
 
-## Front-End:
+## Front-End
 
 🔗Link test Front-End:
 
@@ -72,7 +72,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 - Bootstrap
 - Deploy & CI: Vercel
 
-## Back-End:
+## Back-End
 
 🔗Link test api: https://hospital-api-f6c5exhyheg3abfd.southeastasia-01.azurewebsites.net/
 
@@ -94,7 +94,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 # Task progress
 
-👨‍💻Front-End:
+👨‍💻**Front-End**:
 
 - [x] Design UX/UI
 
@@ -106,7 +106,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 - [x] Implement security measures
 
-💻Back-End:
+💻**Back-End**:
 
 - [x] Data migration
 
