@@ -58,7 +58,14 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ## Front-End
 
+- React
+- Redux
+- MUI
+- Bootstrap
+- Deploy & CI: Vercel
+
 🔗Link test Front-End: [Link](https://fe-k1y5j9njc-natngocs-projects.vercel.app)
+
 🔗Link repo Front-End: [Link](https://github.com/Thuytrinhne/patient-management-fe)
 
 <p align="center">
@@ -69,16 +76,18 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
   <img src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png" alt="Vercel" width="100"/>
 </p>
 
-- React
-- Redux
-- MUI
-- Bootstrap
-- Deploy & CI: Vercel
-
 ## Back-End
 
+- ASP.NET core 8.0
+- Postgres and Entity Framework
+- Redis Cache
+- Deploy: Gg cloud, Azure
+- CI: Github action
+
 🔗Link test api: [Link](https://hospital-api-f6c5exhyheg3abfd.southeastasia-01.azurewebsites.net)
+
 🔗Link repo Back-end: [Link](https://github.com/Thuytrinhne/patient-management-be)
+
 <p align="center">
   <img src="https://www.pragimtech.com/wp-content/uploads/2019/04/aspnet.png" width="100" />
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUmnFYeOmmAlNV9_ZTu5cYgS2L55Q1pt9QyA&s" width="100" />
@@ -88,12 +97,6 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png" width="100" />
   <img src="https://media.dev.to/cdn-cgi/image/width=1080,height=1080,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fft4iy3x3bugjdroygk1b.png" width="100" />
 </p>
-
-- ASP.NET core 8.0
-- Postgres and Entity Framework
-- Redis Cache
-- Deploy: Gg cloud, Azure
-- CI: Github action
 
 # Task progress ✅
 
