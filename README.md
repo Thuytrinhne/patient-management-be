@@ -1,22 +1,22 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-📝**Table of content**
-- [Summary](#summary)
-- [Analysis problem and Solution](#analysis-problem-and-solution)
+
+- [Summary 🐣](#summary-)
+- [Analysis problem and Solution 🧐](#analysis-problem-and-solution-)
   - [Problem](#problem)
   - [Analysis](#analysis)
   - [My solution](#my-solution)
-- [Architecture](#architecture)
+- [Architecture 📑](#architecture-)
   - [Database diagram](#database-diagram)
   - [System Architecture](#system-architecture)
-- [Technologies:](#technologies)
+- [Technologies 🐉](#technologies-)
   - [Front-End](#front-end)
   - [Back-End](#back-end)
-- [Task progress](#task-progress)
-- [Run Application](#run-application)
+- [Task progress ✅](#task-progress-)
+- [Run Application ▶️](#run-application-)
   - [1. Play with Microsoft Visual Studio SDK](#1-play-with-microsoft-visual-studio-sdk)
   - [2. Play with our live website](#2-play-with-our-live-website)
-- [End](#end)
+- [End 👋](#end-)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -34,7 +34,7 @@ https://docs.google.com/document/d/1mCDD8p3cwsm0-f2eaYmEZvbG8_habWmfu8ettW75Sak/
 
 https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/edit
 
-## My solution 
+## My solution
 
 - Users up to 100K and possibly more -> Replication and cache to minimize query time
 - At the same time, it is also necessary to optimize queries -> Database Tuning approach is so necessary
@@ -123,7 +123,6 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 - [x] Implement automatic backup
 
 - [x] Implement caching to enhance performance when querying 100K patients
-      
 - [x] Unit testing (xunit+moq) for Controllers and main services
 
 # Run Application ▶️
