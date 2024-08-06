@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## **Table of content**
+📝**Table of content**
 - [Summary](#summary)
 - [Analysis problem and Solution](#analysis-problem-and-solution)
   - [Problem](#problem)
@@ -20,11 +20,11 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Summary
+# Summary 🐣
 
 This is an simple web application of patients managements.
 
-# Analysis problem and Solution
+# Analysis problem and Solution 🧐
 
 ## Problem
 
@@ -34,7 +34,7 @@ https://docs.google.com/document/d/1mCDD8p3cwsm0-f2eaYmEZvbG8_habWmfu8ettW75Sak/
 
 https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/edit
 
-## My solution
+## My solution 
 
 - Users up to 100K and possibly more -> Replication and cache to minimize query time
 - At the same time, it is also necessary to optimize queries -> Database Tuning approach is so necessary
@@ -42,7 +42,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 - The user interface must be friendly and easy to use for both medical staff and patients.
 - Perform regular backups and have a recovery plan after incidents. Write a data backup script
 
-# Architecture
+# Architecture 📑
 
 ## Database diagram
 
@@ -52,7 +52,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ![image](https://github.com/user-attachments/assets/ba8a1459-fcf8-4705-a522-019d73d3e7af)
 
-# Technologies:
+# Technologies 🐉
 
 ---
 
@@ -94,7 +94,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 - Deploy: Gg cloud, Azure
 - CI: Github action
 
-# Task progress
+# Task progress ✅
 
 👨‍💻**Front-End**:
 
@@ -124,7 +124,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 - [x] Implement caching to enhance performance when querying 100K patients
 
-# Run Application
+# Run Application ▶️
 
 ## 1. Play with Microsoft Visual Studio SDK
 
@@ -137,7 +137,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 Click on the link
 
-# End
+# End 👋
 
 ---
 
