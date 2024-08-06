@@ -123,6 +123,8 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 - [x] Implement automatic backup
 
 - [x] Implement caching to enhance performance when querying 100K patients
+      
+- [x] Unit testing (xunit+moq) for Controllers and main services
 
 # Run Application ▶️
 
