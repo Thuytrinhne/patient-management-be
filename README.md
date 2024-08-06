@@ -57,6 +57,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 ## Front-End:
 
 🔗Link test Front-End:
+
 <p align="center">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg1MndL-Xp1JcnqaB0YOqTp6zDjrwYyGKsPA&s" alt="React" width="100"/>
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwh-2btrw1P54k-yIKqG_lsB_SVc48vGzWZQ&s" alt="Redux" width="100"/>
@@ -64,6 +65,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/800px-Bootstrap_logo.svg.png" alt="Bootstrap" width="100"/>
   <img src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png" alt="Vercel" width="100"/>
 </p>
+
 - React
 - Redux
 - MUI
@@ -73,6 +75,17 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 ## Back-End:
 
 🔗Link test api: https://hospital-api-f6c5exhyheg3abfd.southeastasia-01.azurewebsites.net/
+
+<p align="center">
+  <img src="https://www.pragimtech.com/wp-content/uploads/2019/04/aspnet.png" width="100" />
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUmnFYeOmmAlNV9_ZTu5cYgS2L55Q1pt9QyA&s" width="100" />
+  <img src="https://netcore.vn/uploads/media/7938987e-d3f0-4f9e-8530-16571dca4639.png" width="100" />
+  <img src="https://www.tothenew.com/blog/wp-ttn-blog/uploads/2023/09/redis_logo-1.png" width="100" />
+  <img src="https://techvccloud.mediacdn.vn/280518386289090560/2021/9/1/google-cloud-la-gi-16304808306551940059468-0-14-315-575-crop-16304808366241927824846.jpg" width="100" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png" width="100" />
+  <img src="https://media.dev.to/cdn-cgi/image/width=1080,height=1080,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fft4iy3x3bugjdroygk1b.png" width="100" />
+</p>
+
 - ASP.NET core 8.0
 - Postgres and Entity Framework
 - Redis Cache
