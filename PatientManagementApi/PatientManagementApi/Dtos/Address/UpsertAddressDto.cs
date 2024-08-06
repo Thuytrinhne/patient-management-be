@@ -14,19 +14,19 @@ namespace PatientManagementApi.Dtos.Address
         {
             RuleFor(x => x.Province)
                 .NotEmpty().WithMessage("{PropertyName} must not be empty.")
-                .Length(1, 100).WithMessage("{PropertyName} must be between 1 and 100 characters.");
+                .Length(1, 100).WithMessage("{PropertyName} must be between {MinLength} and {MaxLength} characters.");
 
             RuleFor(x => x.District)
                 .NotEmpty().WithMessage("{PropertyName} must not be empty.")
-                .Length(1, 100).WithMessage("{PropertyName} must be between 1 and 100 characters.");
+                .Length(1, 100).WithMessage("{PropertyName} must be between {MinLength} and {MaxLength} characters.");
 
             RuleFor(x => x.Ward)
                 .NotEmpty().WithMessage("{PropertyName} must not be empty.")
-                .Length(1, 100).WithMessage("{PropertyName} must be between 1 and 100 characters.");
+                .Length(1, 100).WithMessage("{PropertyName} must be between {MinLength} and {MaxLength} characters.");
 
             RuleFor(x => x.DetailAddress)
                 .NotEmpty().WithMessage("{PropertyName} must not be empty.")
-                .Length(1, 200).WithMessage("{PropertyName} must be between 1 and 200 characters.");
+                .Length(1, 200).WithMessage("{PropertyName} must be between {MinLength} and {MaxLength} characters.");
 
             RuleFor(x => x.IsDefault)
                 .NotNull().WithMessage("{PropertyName} must be specified.");

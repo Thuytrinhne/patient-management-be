@@ -15,7 +15,7 @@ namespace PatientManagementApi.Services
         private readonly IUnitOfWork _unitOfWork;
 
         public AuthService(
-        IOptions<JwtOptions> jwtOptions,
+        IOptionsSnapshot<JwtOptions> jwtOptions,
         IJwtTokenGenerator jwtTokenGenerator,
         SignInManager<ApplicationUser> signInManager,
         IUnitOfWork unitOfWork)
@@ -33,7 +33,7 @@ namespace PatientManagementApi.Services
             if (result.Succeeded)
             {
                 var user = await _signInManager.UserManager.FindByNameAsync(loginDto.Email);
-                var claims = generateClaimsForAccessToken(user);
+                var claims =await  generateClaimsForAccessToken(user);
                 var accessToken = _jwtTokenGenerator.GenerateToken(claims, _jwtOptions.Secret, int.Parse(_jwtOptions.AccessTokenExpirationTimeInSeconds));
                 var refreshToken = _jwtTokenGenerator.GenerateToken(claims, _jwtOptions.RefreshSecret, int.Parse(_jwtOptions.RefreshTokenExpirationTimeInSeconds));
 
@@ -49,7 +49,7 @@ namespace PatientManagementApi.Services
             }
             else
             {
-                throw new BadRequestException("Login informations is not correct ! ");
+                throw new AuthenticationException("Invalid login credentials.");
             }
         }
 
@@ -64,7 +64,7 @@ namespace PatientManagementApi.Services
                 var expirationTime = DateTimeOffset.FromUnixTimeSeconds(expirationSeconds).DateTime;
                 return expirationTime;
             }
-            throw new InternalServerException("There was error. ");
+            throw new InvalidOperationException("Failed to retrieve expiration time from token.");
         }
 
         private async Task updateRefreshTokenForUser(ApplicationUser user, string refreshToken)
@@ -73,7 +73,7 @@ namespace PatientManagementApi.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
-        private IEnumerable<Claim> generateClaimsForAccessToken(ApplicationUser user)
+        private async Task<IEnumerable<Claim>> generateClaimsForAccessToken(ApplicationUser user)
         {
             var claims = new List<Claim>
             {
@@ -81,7 +81,7 @@ namespace PatientManagementApi.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Name, user.FirstName + " " + user.LastName)
             };
-            var roles = _signInManager.UserManager.GetRolesAsync(user).Result;
+            var roles = await _signInManager.UserManager.GetRolesAsync(user);
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
             return claims;
         }

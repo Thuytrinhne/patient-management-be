@@ -12,38 +12,51 @@ namespace PatientManagementApi.Core.Repository
             _context = context;
         }
 
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+
+            IQueryable<TEntity> query = _context.Set<TEntity>();
+            return await (filter == null ? query : query.Where(filter)).ToListAsync();
+        }
+        public async  Task<PaginationResult<TEntity>> GetAllPagination(PaginationRequest pagination, Expression<Func<TEntity, bool>> filter = null)
+        {
+            IQueryable<TEntity> query;
+            if (filter is not  null)
+            {
+                query = _context.Set<TEntity>().AsNoTracking().Where(filter);
+            }
+            else
+               query = _context.Set<TEntity>().AsNoTracking();
+
+                var parameter = Expression.Parameter(typeof(TEntity), "p");
+                var property = Expression.Property(parameter,"CreatedAt");
+                var lambda = Expression.Lambda<Func<TEntity, object>>(Expression.Convert(property, typeof(object)), parameter);
+                query = query.OrderByDescending(lambda);
+                     
+            
+
+
+            long totalCount = await query.LongCountAsync();
+
+            var entities = await query.Skip(pagination.PageSize * pagination.PageIndex)
+                                      .Take(pagination.PageSize)
+                                      .ToListAsync();
+
+            return new PaginationResult<TEntity>(
+                    pagination.PageIndex,
+                    pagination.PageSize,
+                    totalCount,
+                    entities);      
+        }
         public async Task AddAsync(TEntity entity)
         {
             await _context.AddAsync(entity);
-         
-
         }
 
         public void Delete(TEntity entity)
         {
             _context.Remove(entity);
         }
-        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
-        {
-            return filter == null
-                ? await _context.Set<TEntity>().ToListAsync()
-                : await _context.Set<TEntity>().Where(filter).ToListAsync();
-        }
-        public async  Task<PaginationResult<TEntity>> GetAllPagination(PaginationRequest pagination)
-        {
-            var totalCount = await _context.Set<TEntity>().LongCountAsync();
-
-            var entities = await _context.Set<TEntity>().Skip(pagination.PageSize * pagination.PageIndex)
-                                       .Take(pagination.PageSize)
-                                       .ToListAsync();
-
-            return new PaginationResult<TEntity>(
-                    pagination.PageIndex,
-                    pagination.PageSize,
-                    totalCount,
-                    entities);
-        }
-
         public void  Update(TEntity entity)
         {
              _context.Set<TEntity>().Update(entity);
@@ -52,7 +65,7 @@ namespace PatientManagementApi.Core.Repository
         {
             return _context.Set<TEntity>().Find(id);
         }
-        public async Task<double> GetTotalCountAsync(Expression<Func<TEntity, bool>> filter = null)
+        public async Task<double> CountPatientAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             if (filter == null)
             {

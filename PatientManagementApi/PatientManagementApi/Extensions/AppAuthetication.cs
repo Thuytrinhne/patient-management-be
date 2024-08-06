@@ -10,7 +10,7 @@ namespace PatientManagementApi.Extensions
     {
         public static WebApplicationBuilder AddAppAuthetication(this WebApplicationBuilder builder)
         {
-            var jwtOptions = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>().Value;
+            var jwtOptions = builder.Services.BuildServiceProvider().GetRequiredService<IOptionsSnapshot<JwtOptions>>().Value;
 
             var secret = jwtOptions.Secret;
             var issuer = jwtOptions.Issuer;

@@ -12,5 +12,6 @@ namespace PatientManagementApi.Models
         public bool IsDefault { get; set; }
         // Navigation property
         public Patient Patient { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

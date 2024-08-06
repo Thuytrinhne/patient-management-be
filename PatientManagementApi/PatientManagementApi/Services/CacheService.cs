@@ -16,19 +16,19 @@ namespace PatientManagementApi.Services
             await _cache.RemoveAsync(key);
         }
 
-        public async Task<Object> GetData(string  key)
+        public async Task<T> GetData<T>(string  key)
         {
             var options = GetJsonSerializerOptions();
             var cachedPatient = await _cache.GetStringAsync(key);
             if (!string.IsNullOrEmpty(cachedPatient))
             {
-                return JsonSerializer.Deserialize<Object>(cachedPatient, options)!;
+                return JsonSerializer.Deserialize<T>(cachedPatient, options)!;
             }
-            return null!;
+            return default(T);
 
         }
 
-        public async Task StoreData(string key, Object obj)
+        public async Task StoreData<T>(string key, T obj)
         {
 
             var options = GetJsonSerializerOptions();
@@ -46,9 +46,9 @@ namespace PatientManagementApi.Services
         {
             return new  JsonSerializerOptions
             {
-                ReferenceHandler = ReferenceHandler.Preserve, // Cho phép xử lý chu kỳ tham chiếu
+                ReferenceHandler = ReferenceHandler.Preserve, 
                 PropertyNameCaseInsensitive = true,
-                WriteIndented = true // Tùy chọn này giúp JSON dễ đọc hơn, có thể bỏ qua nếu không cần
+                WriteIndented = true 
             };
         }
     }

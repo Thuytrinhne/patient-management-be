@@ -2,6 +2,7 @@ using Moq;
 using PatientManagementApi.Extensions.Exceptions;
 using PatientManagementApi.Models;
 using PatientManagementApi.Services;
+using PatientManagementApi.Services.IServices;
 using PatientManagementApi.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,14 @@ namespace PatientManagementApi.Tests.ServiceTests
     {
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly ContactInforService _contactInforService;
+        private readonly Mock<ICacheService> _mockCacheService;
+
 
         public ContactInforServiceTests()
         {
+            _mockCacheService = new Mock<ICacheService>();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _contactInforService = new ContactInforService(_mockUnitOfWork.Object);
+            _contactInforService = new ContactInforService(_mockCacheService.Object, _mockUnitOfWork.Object);
         }
         [Fact]
         public async Task AddContactInforAsync_WhenPatientNotFound_ShouldThrowNotFoundException()
@@ -96,15 +100,5 @@ namespace PatientManagementApi.Tests.ServiceTests
             Assert.Equal(patientId, result.First().PatientId);
         }
 
-        [Fact]
-        public async Task GetAllContactInforAsync_WhenNoPatientIdProvided_ShouldReturnAllContactInfors()
-        {
-            var contactInfors = new List<ContactInfor> { new ContactInfor(), new ContactInfor() };
-            _mockUnitOfWork.Setup(x => x.ContactInfors.GetAllAsync(null)).ReturnsAsync(contactInfors);
-
-            var result = await _contactInforService.GetAllContactInforAsync();
-
-            Assert.Equal(2, result.Count());
-        }
     }
 }

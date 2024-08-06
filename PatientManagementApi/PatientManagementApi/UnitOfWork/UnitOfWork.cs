@@ -8,18 +8,20 @@ namespace PatientManagementApi.UnitOfWork
     {
         private readonly AppDbContext _context;
 
-        public IPatientRepository Patients { get; private set; }
-        public IContactInforRepository ContactInfors { get; private set; }
-        public IAddressRepository Addresses { get; private set; }
-        public IUserRepository Users { get; private set; }
+        private IPatientRepository _patients;
+        private IContactInforRepository _contactInfors;
+        private IAddressRepository _addresses;
+        private IUserRepository _users;
+
+        public IPatientRepository Patients => _patients ??= new PatientRepository(_context);
+        public IContactInforRepository ContactInfors => _contactInfors ??= new ContactInforRepository(_context);
+        public IAddressRepository Addresses => _addresses ??= new AddressRepository(_context);
+        public IUserRepository Users => _users ??= new UserRepository(_context);
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
-            Patients = new PatientRepository(_context);
-            ContactInfors = new ContactInforRepository(_context);
-            Addresses = new AddressRepository(_context);
-            Users = new UserRepository(_context);
+          
 
         }
         public async Task<int> SaveChangesAsync()

@@ -2,7 +2,7 @@ namespace PatientManagementApi.Enums
 {
     public enum ContactType
     {
-        Phone,
-        Email
+        Phone=0,
+        Email=1
     }
 }

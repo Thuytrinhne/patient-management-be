@@ -10,13 +10,13 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
                 new ApplicationRole
                 {
                     Name = "admin",
-                    NormalizedName = "admin"
+                    NormalizedName = "ADMIN"
 
                 },
                 new ApplicationRole
                 {
                     Name = "employee",
-                    NormalizedName = "employee"
+                    NormalizedName = "EMPLOYEE"
                 }
             };
 
@@ -33,7 +33,7 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
                     NormalizedUserName="21522719@GM.UIT.EDU.VN",
                     SecurityStamp= "CZTDKWZ5NTBFGTHCX2GQKF3DAFX3DXBS",
                     ConcurrencyStamp="962fffd4-daac-4dff-afe1-213834e71e51",
-                    PasswordHash = "AQAAAAIAAYagAAAAEGTXGFOgrGjsq/NY63CCX1AQgPKAdvnTyAfk3k13RVENVlxU6StJSnypnuO8NdwoYA=="
+                    PasswordHash =new PasswordHasher<ApplicationUser>().HashPassword(null, "Rj123456@")
                     }
             };
         

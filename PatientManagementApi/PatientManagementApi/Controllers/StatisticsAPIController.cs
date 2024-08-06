@@ -1,35 +1,26 @@
 using Microsoft.AspNetCore.Authorization;
+using PatientManagementApi.Models;
 
 namespace PatientManagementApi.Controllers
 {
     [Route("api/statistics")]
     [ApiController]
     [Authorize]
-    public class StatisticsAPIController : ControllerBase
+    public class StatisticsAPIController (IPatientService _patientService) : ControllerBase
     {
-        private ResponseDto _response;
-
-        private readonly IPatientService _patientService;
-        public StatisticsAPIController( IPatientService patientService)
-        {
-  
-            _response = new();
-            _patientService = patientService;
-
-        }
         [HttpGet("patients/total")]
         public async Task<ActionResult<ResponseDto>> GetPatientStatistics()
         {
-            var result = await _patientService.GetPatientsStatistic();           
-            _response.Result = result;
-            return Ok(_response);
+            var result = await _patientService.GetPatientsStatistic();
+            return Ok(new ResponseDto { Result = result });
+
         }
         [HttpGet("patients/today")]
         public async Task<ActionResult<ResponseDto>> GetTodayPatientStatistics()
         {
             var result = await _patientService.GetTodayPatientsStatistic();
-            _response.Result = result;
-            return Ok(_response);
+            return Ok(new ResponseDto { Result = result });
+
         }
     }
 }

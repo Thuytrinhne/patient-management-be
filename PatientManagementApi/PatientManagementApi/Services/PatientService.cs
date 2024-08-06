@@ -4,6 +4,10 @@ using PatientManagementApi.Dtos.Statistics;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Xml.Linq;
+using PatientManagementApi.Models;
+using System.Linq.Expressions;
+using PatientManagementApi.Extensions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PatientManagementApi.Services
 {
@@ -20,11 +24,8 @@ namespace PatientManagementApi.Services
 
         public async Task DeactivePatient(Guid id, string deactiveReason)
         {
-            Patient patientFrmDb = _unitOfWork.Patients.GetById(id);
-            if(patientFrmDb == null)
-            {
-                throw new NotFoundException("Patient not found.");
-            }
+            var patientFrmDb =  EnsurePatientExists(id);
+        
             if (!patientFrmDb.IsActive)
             {
                 throw new BadRequestException("Patient has already deactivated.");
@@ -34,17 +35,15 @@ namespace PatientManagementApi.Services
             patientFrmDb.DeactivatedAt = DateTime.Now;
             patientFrmDb.DeactivationReason = deactiveReason;
             await _unitOfWork.SaveChangesAsync();
+            await _cacheService.DeleteData(patientFrmDb.Id.ToString());
 
-           
+
+
         }
 
         public async Task DeletePatientAsync(Guid patientId)
         {
-            Patient patientToDelete = _unitOfWork.Patients.GetById(patientId);
-            if(patientToDelete is null)
-            {
-                throw new NotFoundException("Patient not found.");
-            }
+            var patientToDelete = EnsurePatientExists(patientId);
 
             _unitOfWork.Patients.Delete(patientToDelete);
             await _unitOfWork.SaveChangesAsync();
@@ -54,7 +53,8 @@ namespace PatientManagementApi.Services
             (PaginationRequest request, string? FirstName, string? LastName, DateTime? dOB,string? phone,
             string? email, bool? isActive, Gender? gender)
         {
-            return await _unitOfWork.Patients.SearchPatientAsync(request, FirstName, LastName ,dOB, phone, email, isActive, gender);
+            var patientExpression = createExpression(FirstName, LastName, dOB, phone, email, isActive, gender);
+            return await _unitOfWork.Patients.GetAllPagination(request, patientExpression);
         }
 
         public async Task<Patient> GetPatientById(Guid id)
@@ -66,13 +66,13 @@ namespace PatientManagementApi.Services
             }
             
 
-            var patientFrmDb = await  _unitOfWork.Patients.GetPatientWithAddresses(id);
-            if (patientFrmDb is not null)
-            {
-                await _cacheService.StoreData(patientFrmDb.Id.ToString(), patientFrmDb);
-                return patientFrmDb!;
-            }
-            throw new NotFoundException("Patient doesn't exist in the system !");
+            var patientFrmDb = await  _unitOfWork.Patients.GetPatientWithAddressesAndContactInfors(id);
+            if (patientFrmDb is null)
+            throw new NotFoundException($"This patient with ID {id} does not exist in the system.");
+
+            await _cacheService.StoreData(patientFrmDb.Id.ToString(), patientFrmDb);
+            return patientFrmDb!;
+            
         }
 
         public async Task<PatientsStatistic> GetPatientsStatistic()
@@ -83,8 +83,8 @@ namespace PatientManagementApi.Services
             {
                 return totalStatisticFrmCache;
             }
-            var totalPatients = await _unitOfWork.Patients.GetTotalCountAsync();
-            var activeTotal = await _unitOfWork.Patients.GetTotalCountAsync(p => p.IsActive);
+            var totalPatients = await _unitOfWork.Patients.CountPatientAsync();
+            var activeTotal = await _unitOfWork.Patients.CountPatientAsync(p => p.IsActive);
             var deactivatedTotal = totalPatients - activeTotal;
             var result = new PatientsStatistic
             {
@@ -109,9 +109,9 @@ namespace PatientManagementApi.Services
             var today = DateTime.Now.Date;
             var tomorrow = today.AddDays(1);
 
-            var newPatientsToday = await _unitOfWork.Patients.GetTotalCountAsync(p => p.CreatedAt >= today && p.CreatedAt < tomorrow);
+            var newPatientsToday = await _unitOfWork.Patients.CountPatientAsync(p => p.CreatedAt >= today && p.CreatedAt < tomorrow);
 
-            var deactivatedPatientsToday = await _unitOfWork.Patients.GetTotalCountAsync(p => p.IsActive ==false &&( p.DeactivatedAt >= today && p.DeactivatedAt < tomorrow));
+            var deactivatedPatientsToday = await _unitOfWork.Patients.CountPatientAsync(p => p.IsActive ==false &&( p.DeactivatedAt >= today && p.DeactivatedAt < tomorrow));
 
            var result =  new TodayPatientsStatistic
             {
@@ -125,55 +125,111 @@ namespace PatientManagementApi.Services
 
         public async  Task<Guid> UpdatePatientAsync(Patient patient)
         {
-            var patientFrmDb = _unitOfWork.Patients.GetById(patient.Id);
-            if (patientFrmDb is null)
-            {
-                throw new NotFoundException("Patient not found.");
-            }
+            var patientFrmDb = EnsurePatientExists(patient.Id);
+            bool updated = false;
             if (!String.IsNullOrEmpty(patient.FirstName)  && patientFrmDb.FirstName != patient.FirstName)
             {
                     patientFrmDb.FirstName = patient.FirstName;
+                    updated = true;
             }
             if (!String.IsNullOrEmpty(patient.LastName) && patientFrmDb.LastName != patient.LastName)
             {
                    patientFrmDb.LastName = patient.LastName;
+                   updated = true;
 
             }
             if (Enum.IsDefined(typeof(Gender), patient.Gender) && patientFrmDb.Gender != patient.Gender)
             {
                 patientFrmDb.Gender = patient.Gender;
+                updated = true;
+
             }
             if (patient.DateOfBirth != default(DateTime) && patientFrmDb.DateOfBirth != patient.DateOfBirth)
             {
                 patientFrmDb.DateOfBirth = patient.DateOfBirth;
+                updated = true;
+
             }
 
-            await _unitOfWork.SaveChangesAsync();
+            if (updated)
+            {
+                await _unitOfWork.SaveChangesAsync();
+                await _cacheService.DeleteData(patientFrmDb.Id.ToString());
+
+            }
             return patientFrmDb.Id;
 
         }
-        public async Task<T> GetCachedData<T>(string cacheKey) where T : class
+        private async Task<T> GetCachedData<T>(string cacheKey) where T : class
         {
-            var dataFromCache = await _cacheService.GetData(cacheKey);
-            if (dataFromCache != null)
+            var dataFromCache = await _cacheService.GetData<T>(cacheKey);
+            if (dataFromCache is not null)
             {
-                try
-                {
-                    var dataDecoded = JsonSerializer.Deserialize<T>(dataFromCache.ToString(), new JsonSerializerOptions
-                    {
-                        ReferenceHandler = ReferenceHandler.Preserve,
-                        PropertyNameCaseInsensitive = true
-                    });
-                    return dataDecoded;
-                }
-                catch (JsonException ex)
-                {
-                    // Log the exception or handle it as needed
-                    throw new InvalidOperationException("Failed to deserialize the data from cache.", ex);
-                }
+ 
+                return dataFromCache;
             }
-            return null;
+            return null!;
         }
+        private Expression<Func<Patient, bool>> createExpression(
+                string? firstName,
+                string? lastName,
+                DateTime? dOB,
+                string? phone,
+                string? email,
+                bool? isActive,
+                Gender? gender
+              )
+        {
+            Expression<Func<Patient, bool>> patientExpression = patient => true;
 
+            if (!string.IsNullOrEmpty(firstName))
+            {
+                patientExpression = patientExpression.And(p => p.FirstName.Contains(firstName));
+            }
+
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                patientExpression = patientExpression.And(p => p.LastName.Contains(lastName));
+            }
+
+            if (dOB.HasValue)
+            {
+                patientExpression = patientExpression.And(p => p.DateOfBirth.Date == dOB.Value.Date);
+            }
+
+            if (!string.IsNullOrEmpty(phone))
+            {
+                patientExpression = patientExpression.And(p =>
+                    p.ContactInfors.Any(c => c.Type == ContactType.Phone && c.Value == phone));
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                patientExpression = patientExpression.And(p =>
+                    p.ContactInfors.Any(c => c.Type == ContactType.Email && c.Value.Contains(email)));
+            }
+
+            if (isActive.HasValue)
+            {
+                patientExpression = patientExpression.And(p => p.IsActive == isActive.Value);
+            }
+
+            if (gender.HasValue)
+            {
+                patientExpression = patientExpression.And(p => p.Gender == gender);
+            }
+         
+            return patientExpression;
+        }
+        private Patient EnsurePatientExists(Guid id)
+        {
+            var patient =  _unitOfWork.Patients.GetById(id);
+            if (patient == null)
+            {
+                throw new NotFoundException($"This patient with ID {id} does not exist in the system.");
+            }
+            return patient;
+        }
     }
+
 }

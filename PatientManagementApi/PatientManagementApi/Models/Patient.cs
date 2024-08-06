@@ -19,7 +19,7 @@ namespace PatientManagementApi.Models
         {
             IsActive = true;
         }
-
+        public ApplicationUser User { get; set; }
     }
 
 

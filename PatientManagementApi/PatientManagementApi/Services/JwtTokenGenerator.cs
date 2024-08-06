@@ -13,7 +13,7 @@ namespace PatientManagementApi.Services
         private readonly JwtOptions _jwtOptions;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public JwtTokenGenerator(IOptions<JwtOptions> jwtOptions, UserManager<ApplicationUser> userManager)
+        public JwtTokenGenerator(IOptionsSnapshot<JwtOptions> jwtOptions, UserManager<ApplicationUser> userManager)
         {
             _jwtOptions = jwtOptions.Value;
             _userManager = userManager;
@@ -41,18 +41,18 @@ namespace PatientManagementApi.Services
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+                ValidateAudience = false, 
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+                ValidateLifetime = false 
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken securityToken;
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                throw new SecurityTokenException("Invalid token");
+                throw new SecurityTokenException("Invalid token: Algorithm not supported or token malformed.");
             return principal;
         }
 

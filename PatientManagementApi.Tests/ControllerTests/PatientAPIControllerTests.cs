@@ -21,6 +21,10 @@ namespace PatientManagementApi.Tests.ControllerTests
     public class PatientAPIControllerTests
     {
         private readonly Mock<IPatientService> _mockPatientService;
+        private readonly Mock<IAddressService> _mockAddressService;
+        private readonly Mock<IContactInforService> _mockContactService;
+
+
         private readonly Mock<IMapper> _mockMapper;
         private readonly PatientAPIController _controller;
         private readonly ResponseDto _response;
@@ -28,9 +32,13 @@ namespace PatientManagementApi.Tests.ControllerTests
         public PatientAPIControllerTests()
         {
             _mockPatientService = new Mock<IPatientService>();
+            _mockAddressService = new Mock<IAddressService>();
+
+            _mockContactService = new Mock<IContactInforService>();
+
             _mockMapper = new Mock<IMapper>();
             _response = new ResponseDto();
-            _controller = new PatientAPIController(_mockMapper.Object, _mockPatientService.Object);
+            _controller = new PatientAPIController(_mockMapper.Object, _mockPatientService.Object, _mockAddressService.Object, _mockContactService.Object);
         }
         #region Get 
         [Fact]

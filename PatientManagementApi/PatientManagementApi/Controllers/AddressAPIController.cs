@@ -7,34 +7,14 @@ namespace PatientManagementApi.Controllers
     [ApiController]
     [Authorize]
 
-    public class AddressAPIController  : ControllerBase
-    {
-        private ResponseDto _response;
-        private IMapper _mapper;
-        private IAddressService _addressService;
-        public AddressAPIController(IMapper mapper, IAddressService addressService)
-        {
-            _mapper = mapper;
-            _response = new();
-            _addressService = addressService;
-        }
- 
-
+    public class AddressAPIController(IMapper _mapper, IAddressService _addressService)  : ControllerBase
+    {      
         [HttpGet("{id:Guid}", Name = "GetAddressById")]
         public async Task<ActionResult<ResponseDto>> Get(Guid id)
         {
            
                 var  result = _addressService.GetAddressById(id);
-                if (result is null)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "This address doesn't exist in the system.";
-                    return NotFound(_response);
-                }
-                _response.Result = _mapper.Map<GetAddressDto>(result);
-                return Ok(_response);
-            
-          
+                return Ok(new ResponseDto { Result = _mapper.Map<GetAddressDto>(result)  });
         }
         [HttpPost("{patientId:Guid}")]
         public async Task<ActionResult<ResponseDto>> Post
@@ -44,10 +24,9 @@ namespace PatientManagementApi.Controllers
                 var addressToAdd = _mapper.Map<Address>(request);
                 addressToAdd.PatientId = patientId;
 
-                var NewAddressId = await _addressService.AddAddressAsync(addressToAdd);
+                var newAddressId = await _addressService.AddAddressAsync(addressToAdd);
 
-                _response.Result = NewAddressId;
-                return CreatedAtRoute("GetAddressById", new { id = NewAddressId }, _response);
+                return CreatedAtRoute("GetAddressById", new { id = newAddressId }, new ResponseDto { Result = newAddressId });
       
         }
         [HttpPatch("{id:Guid}")]
@@ -58,15 +37,14 @@ namespace PatientManagementApi.Controllers
                 var addressToUpdate = _mapper.Map<Address>(request);
                 addressToUpdate.Id = id;
                 await _addressService.UpdateAddressAsync(addressToUpdate);
-                _response.Result = id;
-                return Ok(_response);
-           
+                return Ok(new ResponseDto { Result = id });
+     
         }
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult<ResponseDto>> Delete(Guid id)
         {
              await _addressService.DeleteAddressAsync(id);
-                return Ok(_response);
+                return Ok(new ResponseDto());
             
         }
     }

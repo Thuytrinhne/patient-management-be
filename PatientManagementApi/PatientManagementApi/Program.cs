@@ -16,14 +16,14 @@ var assembly = typeof(Program).Assembly;
 
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 {
-    var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
+    var connectionOptions = serviceProvider.GetRequiredService<IOptionsSnapshot<ConnectionStringOptions>>().Value;
 
     options.UseNpgsql(connectionOptions.PostgresConstr);
 });
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     var serviceProvider = builder.Services.BuildServiceProvider();
-    var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
+    var connectionOptions = serviceProvider.GetRequiredService<IOptionsSnapshot<ConnectionStringOptions>>().Value;
     options.Configuration = connectionOptions.RedisConstr;
 });
 
@@ -45,7 +45,6 @@ builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IContactInforService, ContactInforService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICsvService, CsvService>();
-
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IContactInforRepository, ContactInforRepository>();

@@ -1,19 +1,17 @@
+using PatientManagementApi.Models;
+using PatientManagementApi.Services.IServices;
+
 namespace PatientManagementApi.Services
 {
-    public class AddressService : IAddressService
+    public class AddressService (ICacheService _cacheService, IUnitOfWork _unitOfWork) : IAddressService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public AddressService(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
         public async Task<Guid> AddAddressAsync(Address address)
         {
-            Patient PatientFrmDb = _unitOfWork.Patients.GetById(address.PatientId);
-            if (PatientFrmDb is null)
+            Patient patientFrmDb = await  _unitOfWork.Patients.GetPatientWithAddressesAndContactInfors(address.PatientId);
+            if (patientFrmDb is null)
                 throw new NotFoundException("A patient not found");
             
-            if (PatientFrmDb.Addresses.Count <2)
+            if (patientFrmDb.Addresses.Count <2)
             {
                 await _unitOfWork.Addresses.AddAsync(address);
                 if (address.IsDefault)
@@ -21,6 +19,7 @@ namespace PatientManagementApi.Services
                    await UpdateDefaultAddressAsync(address.PatientId, address.Id);
                 }
                 await _unitOfWork.SaveChangesAsync();
+                await _cacheService.DeleteData(address.PatientId.ToString());
                 return address.Id;
 
             }
@@ -40,21 +39,21 @@ namespace PatientManagementApi.Services
 
             }
             _unitOfWork.Addresses.Delete(addressFrmDb);
+            await _cacheService.DeleteData(addressFrmDb.PatientId.ToString());
             await _unitOfWork.SaveChangesAsync();
+
+
         }
 
         private async  Task<bool> IsRemainDefaultAddress(Guid PatientId, Guid addressid)
         {
-            // Kiểm tra xem còn địa chỉ nào khác không
-            var patientFrmDb = _unitOfWork.Patients.GetById(PatientId);
-            var otherAddresses = patientFrmDb.Addresses.Where(a => a.Id != addressid).ToList();
+            var otherAddresses = await  _unitOfWork.Addresses.GetAllAsync(a => a.Id != addressid && a.PatientId ==PatientId);
             if (!otherAddresses.Any())
             {
                 return false;
             }
             else
             {
-                // Đặt địa chỉ đầu tiên trong danh sách còn lại làm mặc định
                 otherAddresses.First().IsDefault = true;
                 await _unitOfWork.SaveChangesAsync();
                 return true;
@@ -63,7 +62,12 @@ namespace PatientManagementApi.Services
 
         public Address GetAddressById(Guid id)
         {
-            return _unitOfWork.Addresses.GetById(id);
+            var result =  _unitOfWork.Addresses.GetById(id);
+
+            if (result is null)
+                throw new NotFoundException($"Address with Id {id} not found.");
+
+            return result;
 
         }
         public async Task<IEnumerable<Address>> GetAllAddressAsync(Guid? PatientId)
@@ -84,14 +88,16 @@ namespace PatientManagementApi.Services
             var addressFrmDb = _unitOfWork.Addresses.GetById(address.Id);
             if (addressFrmDb is null)
             {
-                throw new NotFoundException("Address not found.");
+                throw new NotFoundException($"Address with Id {address.Id} not found.");
             }
+            bool updated = false;
             if (!address.IsDefault && address.IsDefault != addressFrmDb.IsDefault)
             {
 
                 if (await IsRemainDefaultAddress(addressFrmDb.PatientId, addressFrmDb.Id))
                 {
                     addressFrmDb.IsDefault = false;
+                    updated = true;
                 }
                 else
                 {
@@ -99,36 +105,50 @@ namespace PatientManagementApi.Services
 
                 }
             }
-            if (!String.IsNullOrEmpty(address.Province) && address.Province != addressFrmDb.Province)
+             if (address.IsDefault && address.IsDefault != addressFrmDb.IsDefault) 
+                {
+                    await UpdateDefaultAddressAsync(addressFrmDb.PatientId, addressFrmDb.Id);
+                    addressFrmDb.IsDefault = true;
+                    updated = true;
+                }
+                if (!String.IsNullOrEmpty(address.Province) && address.Province != addressFrmDb.Province)
                 {
                     addressFrmDb.Province = address.Province;
+                    updated = true;
                 }
                 if (!String.IsNullOrEmpty(address.District) && address.District != addressFrmDb.District)
                 {
                     addressFrmDb.District = address.District;
-                }
+                    updated = true;
+
+                 }
                 if (!String.IsNullOrEmpty(address.Ward) && address.Ward != addressFrmDb.Ward)
                 {
                     addressFrmDb.Ward = address.Ward;
+                    updated = true;
                 }
                 if (!String.IsNullOrEmpty(address.DetailAddress) && address.DetailAddress != addressFrmDb.DetailAddress)
                 {
                     addressFrmDb.DetailAddress = address.DetailAddress;
+                    updated = true;
                 }
-                if (address.IsDefault && address.IsDefault != addressFrmDb.IsDefault) 
-                {
-                    await UpdateDefaultAddressAsync(address.PatientId, address.Id);
-                    addressFrmDb.IsDefault = true;
-                }
-             
+               
 
-            await _unitOfWork.SaveChangesAsync();
-                return addressFrmDb.Id;
+
+            if (updated)
+            {
+                await _unitOfWork.SaveChangesAsync();
+                await _cacheService.DeleteData(addressFrmDb.PatientId.ToString());
+
+            }
+            return addressFrmDb.Id;
         }
+       
         private async Task UpdateDefaultAddressAsync(Guid PatientId, Guid addressid)
         {
-            var patientFromDb =  _unitOfWork.Patients.GetById(PatientId);
-            var defaultAddress = patientFromDb.Addresses.FirstOrDefault(a => a.IsDefault);
+            var addressesFromDb = await  _unitOfWork.Addresses.GetAllAsync(a=>a.PatientId==PatientId);
+
+            var defaultAddress = addressesFromDb.FirstOrDefault(a => a.IsDefault);
 
             if (defaultAddress is not  null && defaultAddress.Id != addressid)
             {

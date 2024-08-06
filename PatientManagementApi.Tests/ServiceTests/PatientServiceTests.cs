@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using PatientManagementApi.Models;
 using PatientManagementApi.Extensions.Exceptions;
 using PatientManagementApi.Core.Pagination;
+using System.Linq.Expressions;
 
 namespace PatientManagementApi.Tests.ServiceTests
 {
@@ -77,7 +78,7 @@ namespace PatientManagementApi.Tests.ServiceTests
             _mockUnitOfWork.Setup(x => x.Patients.GetById(It.IsAny<Guid>())).Returns(patient);
             _mockUnitOfWork.Setup(x => x.Patients.Delete(It.IsAny<Patient>())).Verifiable();
             _mockUnitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-            _mockCacheService.Setup(x => x.DeletePatient(It.IsAny<Guid>())).Returns(Task.CompletedTask);
+            _mockCacheService.Setup(x => x.DeleteData(It.IsAny<string>())).Returns(Task.CompletedTask);
 
             // Act
             await _service.DeletePatientAsync(patient.Id);
@@ -116,7 +117,7 @@ namespace PatientManagementApi.Tests.ServiceTests
         {
             var request = new PaginationRequest();
             var patients = new PaginationResult<Patient>();
-            _mockUnitOfWork.Setup(x => x.Patients.SearchPatientAsync(request, null, null, null, null, null, null, null)).ReturnsAsync(patients);
+            _mockUnitOfWork.Setup(x => x.Patients.GetAllPagination(request, It.IsAny<Expression<Func<Patient, bool>>>())).ReturnsAsync(patients);
 
             var result = await _service.GetAllPatientAsync(request, null, null, null, null, null, null, null);
 
@@ -126,7 +127,7 @@ namespace PatientManagementApi.Tests.ServiceTests
         public async Task GetPatientById_WhenInCache_ShouldReturnFromCache()
         {
             var patient = new Patient { Id = Guid.NewGuid() };
-            _mockCacheService.Setup(x => x.GetPatient(patient.Id)).ReturnsAsync(patient);
+            _mockCacheService.Setup(x => x.GetData<Patient>(patient.Id.ToString())).ReturnsAsync(patient);
 
             var result = await _service.GetPatientById(patient.Id);
 
@@ -137,14 +138,14 @@ namespace PatientManagementApi.Tests.ServiceTests
         public async Task GetPatientById_WhenNotInCache_ShouldReturnFromDbAndStoreInCache()
         {
             var patient = new Patient { Id = Guid.NewGuid() };
-            _mockCacheService.Setup(x => x.GetPatient(patient.Id)).ReturnsAsync((Patient)null);
+            _mockCacheService.Setup(x => x.GetData<Patient>(patient.Id.ToString())).ReturnsAsync((Patient)null);
             _mockUnitOfWork.Setup(x => x.Patients.GetById(patient.Id)).Returns(patient);
-            _mockCacheService.Setup(x => x.StorePatient(patient)).Returns(Task.CompletedTask);
+            _mockCacheService.Setup(x => x.StoreData<Patient>(patient.Id.ToString(),  patient)).Returns(Task.CompletedTask);
 
             var result = await _service.GetPatientById(patient.Id);
 
             Assert.Equal(patient, result);
-            _mockCacheService.Verify(x => x.StorePatient(patient), Times.Once);
+            _mockCacheService.Verify(x => x.StoreData<Patient>(patient.Id.ToString(),patient), Times.Once);
         }
     }
 }

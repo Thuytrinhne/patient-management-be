@@ -10,5 +10,6 @@ namespace PatientManagementApi.Models
 
         // Navigation property
         public Patient Patient { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -2,6 +2,7 @@ using Moq;
 using PatientManagementApi.Extensions.Exceptions;
 using PatientManagementApi.Models;
 using PatientManagementApi.Services;
+using PatientManagementApi.Services.IServices;
 using PatientManagementApi.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,15 @@ namespace PatientManagementApi.Tests.ServiceTests
     public class AddressServiceTests
     {
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
+        private readonly Mock<ICacheService> _mockCacheService;
+
         private readonly AddressService _addressService;
 
         public AddressServiceTests()
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _addressService = new AddressService(_mockUnitOfWork.Object);
+            _mockCacheService = new Mock<ICacheService>();
+            _addressService = new AddressService(_mockCacheService.Object, _mockUnitOfWork.Object);
         }
         [Fact]
         public async Task AddAddressAsync_WhenPatientNotFound_ShouldThrowNotFoundException()
@@ -92,17 +96,6 @@ namespace PatientManagementApi.Tests.ServiceTests
 
             Assert.Single(result);
             Assert.Equal(patientId, result.First().PatientId);
-        }
-
-        [Fact]
-        public async Task GetAllAddressAsync_WhenNoPatientIdProvided_ShouldReturnAllAddresses()
-        {
-            var addresses = new List<Address> { new Address(), new Address() };
-            _mockUnitOfWork.Setup(x => x.Addresses.GetAllAsync(null)).ReturnsAsync(addresses);
-
-            var result = await _addressService.GetAllAddressAsync();
-
-            Assert.Equal(2, result.Count());
         }
 
 

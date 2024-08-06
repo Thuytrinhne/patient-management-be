@@ -19,66 +19,37 @@ namespace PatientManagementApi.Extensions.DatabaseExtensions
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var serviceProvider = scope.ServiceProvider;
 
-            context.Database.MigrateAsync().GetAwaiter().GetResult(); // auto migration 
+            context.Database.MigrateAsync().GetAwaiter().GetResult(); 
             await SeedAsync(context, serviceProvider);
         }
         private static async Task SeedAsync(AppDbContext context, IServiceProvider serviceProvider)
         {
             var csvService = serviceProvider.GetRequiredService<ICsvService>();
 
-            await SeedUsersAsync(context);
-            await SeedRolesAsync(context);
-            await SeedPatientsFrmCsvAsync(context, csvService);
-            await SeedAddressesFrmCsvAsync(context, csvService);
-            ////await SeedContactInforsFrmCsvAsync(context);
-
+            await SeedEntityAsync(context.Users, InitialData.Users, context);
+            await SeedEntityAsync(context.Roles, InitialData.Roles, context);
+            await SeedEntityFromCsvAsync(context.Patients, csvService, "./Extensions/DatabaseExtensions/CsvFiles/patients_data.csv", context);
+            await SeedEntityFromCsvAsync(context.Addresses, csvService, "./Extensions/DatabaseExtensions/CsvFiles/addresses_data.csv", context);
         }
 
-        private static Task SeedContactInforsFrmCsvAsync(AppDbContext context)
+        private static async Task SeedEntityAsync<T>(DbSet<T> dbSet, IEnumerable<T> data, AppDbContext context) where T : class
         {
-            throw new NotImplementedException();
-        }
-
-        private static async  Task SeedAddressesFrmCsvAsync(AppDbContext context, ICsvService csvService)
-        {
-            if (!await context.Addresses.AnyAsync())
+            if (!await dbSet.AnyAsync())
             {
-                var addresses = csvService.ReadEntitiesFromCsv<Address>(@"./Extensions/DatabaseExtensions/addresses_data.csv");
-                await context.Addresses.AddRangeAsync(addresses);
+                await dbSet.AddRangeAsync(data);
                 await context.SaveChangesAsync();
             }
         }
 
-        private static async Task SeedUsersAsync(AppDbContext context)
+        private static async Task SeedEntityFromCsvAsync<T>(DbSet<T> dbSet, ICsvService csvService, string filePath, AppDbContext context) where T : class
         {
-
-            if (!await context.Users.AnyAsync())
-            {        
-                await context.Users.AddRangeAsync(InitialData.Users);
-                await context.SaveChangesAsync();
-            }
-        }
-        private static async Task SeedRolesAsync(AppDbContext context)
-        {
-
-            if (!await context.Roles.AnyAsync())
+            if (!await dbSet.AnyAsync())
             {
-              
-                await context.Roles.AddRangeAsync(InitialData.Roles);
+                var entities = csvService.ReadEntitiesFromCsv<T>(filePath);
+                await dbSet.AddRangeAsync(entities);
                 await context.SaveChangesAsync();
             }
         }
-        private static async Task SeedPatientsFrmCsvAsync(AppDbContext context, ICsvService csvService)
-        {
-            if (!await context.Patients.AnyAsync())
-            {
-                var patients = csvService.ReadEntitiesFromCsv<Patient>(@"./Extensions/DatabaseExtensions/patients_data.csv");
-                await context.Patients.AddRangeAsync(patients);
-                await context.SaveChangesAsync();
 
-
-            }
-        }
-    
     }
 }

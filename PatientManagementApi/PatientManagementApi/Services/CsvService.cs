@@ -9,35 +9,43 @@ namespace PatientManagementApi.Services
 {
     public class CsvService : ICsvService
     {
+        private static readonly Dictionary<Type, Type> _classMapRegistry = new Dictionary<Type, Type>
+        {
+            { typeof(Patient), typeof(CsvPatientMap) },
+            { typeof(Address), typeof(CsvAddressMap) }
+        };
+
         public List<TEntity> ReadEntitiesFromCsv<TEntity>(string filePath) where TEntity : class
         {
-          var entities = new List<TEntity>();
-
+            var entities = new List<TEntity>();
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 PrepareHeaderForMatch = args => args.Header.ToLower(),
                 MissingFieldFound = null
-
             };
-        
-            using (var reader = new StreamReader(filePath))
-            using (var csv = new CsvReader(reader, config))
-            {
-                if (typeof(TEntity) == typeof(Patient))
-                {
-                    csv.Context.RegisterClassMap<CsvPatientMap>();
-                }
-                else if (typeof(TEntity) == typeof(Address))
-                {
-                    csv.Context.RegisterClassMap<CsvAddressMap>(); 
-                }
 
-                entities = csv.GetRecords<TEntity>().ToList();
+            try
+            {
+                using (var reader = new StreamReader(filePath))
+                using (var csv = new CsvReader(reader, config))
+                {
+                    if (_classMapRegistry.TryGetValue(typeof(TEntity), out var classMapType))
+                    {
+                        csv.Context.RegisterClassMap(classMapType);
+                    }
+
+                    entities = csv.GetRecords<TEntity>().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Failed to read CSV file.", ex);
             }
 
             return entities;
         }
     }
+
     public sealed class CsvAddressMap : ClassMap<Address>
     {
         public CsvAddressMap()
@@ -57,7 +65,7 @@ namespace PatientManagementApi.Services
         public CsvPatientMap()
         {
             string[] formats = new string[] { "dd/MM/yyyy H:mm", "M/d/yyyy h:mm:ss tt", "dd/MM/yyyy hh:mm:ss tt", "M/d/yyyy H:mm" };
-            var cultureInfo = CultureInfo.InvariantCulture; // Sử dụng InvariantCulture để tránh những vấn đề liên quan đến định dạng vùng
+            var cultureInfo = CultureInfo.InvariantCulture; 
 
             Map(m => m.Id)        
               .Index(0);
@@ -112,11 +120,10 @@ namespace PatientManagementApi.Services
                 return null;
             }
 
-            // Thêm định dạng mới vào danh sách các định dạng được chấp nhận
+         
             var formats = new[] { "dd/MM/yyyy H:mm", "M/d/yyyy h:mm:ss tt", "dd/MM/yyyy hh:mm:ss tt", "M/d/yyyy H:mm" };
             var cultureInfo = CultureInfo.InvariantCulture;
 
-            // Thử phân tích cú pháp ngày giờ với các định dạng được cung cấp
             DateTime dateTime;
             if (DateTime.TryParseExact(text, formats, cultureInfo, DateTimeStyles.None, out dateTime))
             {

@@ -14,35 +14,15 @@ namespace PatientManagementApi.Controllers
     [ApiController]
     [Authorize]
 
-    public class ContactInforAPIController : ControllerBase
+    public class ContactInforAPIController (IMapper _mapper, IContactInforService _contactInforService) : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IContactInforService _contactInforService;
-        private readonly ResponseDto _response;
-
-        public ContactInforAPIController(IMapper mapper, IContactInforService contactInforService)
-        {
-            _mapper = mapper;
-            _contactInforService = contactInforService;
-            _response = new ResponseDto();
-        }
-
-        
-
+     
         [HttpGet("{id:Guid}", Name = "GetContactInforById")]
         public async Task<ActionResult<ResponseDto>> Get(Guid id)
-        {
-           
+        {        
                 var result = _contactInforService.GetContactInforById(id);
-                if (result is null)
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "This contact information doesn't exist in the system.";
-                    return NotFound(_response);
-                }
-                _response.Result = _mapper.Map<GetContactInforDto>(result);
-                return Ok(_response);
-           
+               return Ok(new ResponseDto { Result = _mapper.Map<GetContactInforDto>(result) });
+      
         }
 
         [HttpPost("{patientId:Guid}")]
@@ -54,8 +34,7 @@ namespace PatientManagementApi.Controllers
 
                 var newContactInforId = await _contactInforService.AddContactInforAsync(contactInforToAdd);
 
-                _response.Result = newContactInforId;
-                return CreatedAtRoute("GetContactInforById", new { id = newContactInforId }, _response);
+                return CreatedAtRoute("GetContactInforById", new { id = newContactInforId }, new ResponseDto { Result = newContactInforId });
            
         }
 
@@ -66,17 +45,16 @@ namespace PatientManagementApi.Controllers
                 var contactInforToUpdate = _mapper.Map<ContactInfor>(request);
                 contactInforToUpdate.Id = id;
                 await _contactInforService.UpdateContactInforAsync(contactInforToUpdate);
-                _response.Result = id;
-                return Ok(_response);
+                return Ok(new ResponseDto { Result = id });
+
            
         }
 
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult<ResponseDto>> Delete(Guid id)
         {
-           
                 await _contactInforService.DeleteContactInforAsync(id);
-                return Ok(_response);
+                return Ok(new ResponseDto());
            
         }
     }

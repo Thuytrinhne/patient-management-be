@@ -2,8 +2,8 @@ namespace PatientManagementApi.Services.IServices
 {
     public interface ICacheService
     {
-        Task<Object> GetData(string key);
-        Task StoreData(string key, Object obj);
+        Task<T> GetData<T>(string key);
+        Task StoreData<T>(string key, T obj);
         Task DeleteData(string key);
 
     }
