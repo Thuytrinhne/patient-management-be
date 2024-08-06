@@ -24,13 +24,9 @@
 
 # Summary
 
----
-
 This is an simple web application of patients managements.
 
 # Analysis problem and think for solution
-
----
 
 ## Problem
 
@@ -49,7 +45,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 - Perform regular backups and have a recovery plan after incidents. Write a data backup script
 
 # Architecture
----
+
 ## Database diagram
 ![Untitled](https://github.com/user-attachments/assets/cc99a717-4525-4db7-ae98-f5b7fc91a2c9)
 ## System Architecture
@@ -60,7 +56,14 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ## Front-End:
 
-- Link test Front-End:
+🔗Link test Front-End:
+<p align="center">
+  <img src="https://vi.wikipedia.org/wiki/React" alt="React" width="100"/>
+  <img src="https://www.bairesdev.com/blog/what-is-redux-and-why-it-matters" alt="Redux" width="100"/>
+  <img src="https://www.youtube.com/@MUI_hq" alt="MUI" width="100"/>
+  <img src="https://vi.wikipedia.org/wiki/Bootstrap" alt="Bootstrap" width="100"/>
+  <img src="https://vercel.com/" alt="Vercel" width="100"/>
+</p>
 - React
 - Redux
 - MUI
@@ -69,7 +72,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 ## Back-End:
 
-- Link test api: https://hospital-api-f6c5exhyheg3abfd.southeastasia-01.azurewebsites.net/
+🔗Link test api: https://hospital-api-f6c5exhyheg3abfd.southeastasia-01.azurewebsites.net/
 - ASP.NET core 8.0
 - Postgres and Entity Framework
 - Redis Cache
@@ -78,9 +81,7 @@ https://docs.google.com/document/d/1qS_FNeMV1ET0WMmXS-C8AspC77MiE0mUsBlE6t0WTFU/
 
 # Task progress
 
----
-
-Front-End:
+👨‍💻Front-End:
 
 - [x] Design UX/UI
 
@@ -92,7 +93,7 @@ Front-End:
 
 - [x] Implement security measures
 
-Back-End:
+💻Back-End:
 
 - [x] Data migration
 
@@ -110,16 +111,14 @@ Back-End:
 
 # Run Application
 
----
-
-## Play with Microsoft Visual Studio SDK
+## 1. Play with Microsoft Visual Studio SDK
 
 B1: Clone the git project
 B2: Click on the `PatientManagementApi.sln`
 B3: Choose the profile for running you want
 B4: Run and if the swagger doc appear, that is successful
 
-## Play with our live website
+## 2. Play with our live website
 
 Click on the link
 
